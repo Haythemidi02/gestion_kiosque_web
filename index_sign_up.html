@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnergyFuel - Station Service</title>
+    <link rel="stylesheet" href="style_sign.css">
+    <script src="script_sign_in.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="logo">Energy<span>Fuel</span></div>
+        <nav>
+            <ul>
+                <li><a href="index_acceuil.html" id="navHome">Accueil</a></li>
+                <li><a href="index_service.html" id="navServices">Services</a></li>
+                <li><a href="index_classement.html" id="navLeaderboard">Classement</a></li>
+                <li><a href="index_about_us.html" id="navAccount">about us</a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- formulaire d'inscription -->
+    <div id="authSection" class="container">
+    <form class="auth-form" id="registerForm">
+        <div class="form-group">
+            <label for="civilite">Civilité <span class="required">*</span></label><br>
+                <label></label>
+                <input type="radio" name="choice">M. <br>
+                <label></label>
+                <input type="radio" name="choice">Mme<br>
+        </div>
+        <div class="form-group">
+            <label for="registerName">Nom complet<span class="required">*</span></label>
+            <input type="text" id="registerName" placeholder="Votre nom complet" required>
+        </div>
+        <div class="form-group">
+            <label for="registerEmail">Email<span class="required">*</span></label>
+            <input type="email" id="registerEmail" placeholder="Votre email" required>
+        </div>
+        <div class="form-group">
+            <label for="type_vehicule">Type de véhicule <span class="required">*</span></label>
+            <select id="type_vehicule" name="type_vehicule" required>
+                <option value="">Sélectionnez</option>
+                <option value="voiture">Voiture</option>
+                <option value="camion">Camion</option>
+                <option value="moto">Moto</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="immatriculation">Numéro d'immatriculation <span class="required">*</span></label>
+            <input type="text" id="immatriculation" name="immatriculation" required>
+        </div>
+        <div class="form-group">
+            <label for="registerPassword">Mot de passe<span class="required">*</span></label>
+            <input type="password" id="registerPassword" placeholder="Créez un mot de passe" required>
+        </div>
+        <div class="form-group">
+            <label for="registerPasswordConfirm">Confirmer le mot de passe<span class="required">*</span></label>
+            <input type="password" id="registerPasswordConfirm" placeholder="Confirmez votre mot de passe" required>
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" name="conditions" required>
+                J'accepte les conditions générales d'utilisation <span class="required">*</span>
+            </label>
+        </div>
+        <section>
+            <button type="submit" class="btn btn-block" id="registerButton">S'inscrire</button>
+        </section>
+    </form>
+    </div>
+    <footer class="minimised">
+        <p>&copy; 2025 EnergyFuel. Tous droits réservés.</p>
+        <p>Adresse : 5051 moknine, monastir</p>
+        <p>Téléphone : (+216) 27 312 507 | Email : haythem.idi@ensi-uma.tn</p>
+    </footer>
+    </body>
+</html>
