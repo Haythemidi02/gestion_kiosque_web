@@ -1,12 +1,10 @@
+// script_sign_in.js
 document.addEventListener('DOMContentLoaded', function () {
-    /* ========== Gestion commune ========== */
-    // Ajout de Font Awesome
     const fontAwesome = document.createElement('link');
     fontAwesome.rel = 'stylesheet';
     fontAwesome.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css';
     document.head.appendChild(fontAwesome);
 
-    // Animation d'entrée pour les formulaires
     function animateForm(form) {
         form.style.opacity = '0';
         form.style.transform = 'translateY(20px)';
@@ -17,14 +15,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 100);
     }
 
-    /* ========== INSCRIPTION (Sign Up) ========== */
+    // Inscription
     const registerForm = document.getElementById('registerForm');
     if (registerForm) {
         animateForm(registerForm);
         const registerButton = document.getElementById('registerButton');
         const requiredFields = document.querySelectorAll('#registerForm [required]');
 
-        // Validation en temps réel
         requiredFields.forEach(field => {
             field.addEventListener('input', () => validateField(field));
             field.addEventListener('blur', () => validateField(field));
@@ -32,12 +29,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         function validateField(field) {
             const errorElement = document.getElementById(`${field.id}Error`) || createErrorElement(field);
-
             if (field.type === 'radio') {
                 validateRadioGroup(field.name);
                 return;
             }
-
             if (field.checkValidity()) {
                 field.classList.remove('invalid');
                 field.classList.add('valid');
@@ -53,12 +48,10 @@ document.addEventListener('DOMContentLoaded', function () {
             const radioGroup = document.querySelectorAll(`input[name="${name}"]`);
             const errorElement = document.getElementById(`${name}Error`) || createErrorElement(radioGroup[0], name);
             const isChecked = Array.from(radioGroup).some(radio => radio.checked);
-
             radioGroup.forEach(radio => {
                 radio.classList.toggle('invalid', !isChecked);
                 radio.classList.toggle('valid', isChecked);
             });
-
             errorElement.textContent = isChecked ? '' : 'Veuillez sélectionner une option';
         }
 
@@ -66,17 +59,14 @@ document.addEventListener('DOMContentLoaded', function () {
             const errorElement = document.createElement('small');
             errorElement.id = name ? `${name}Error` : `${field.id}Error`;
             errorElement.className = 'error-message';
-            errorElement.style.color = 'var(--primary)';
+            errorElement.style.color = 'red';
             errorElement.style.display = 'block';
             errorElement.style.marginTop = '5px';
-            errorElement.style.fontSize = '0.8rem';
-
             if (field.type === 'radio') {
                 field.closest('.form-group').appendChild(errorElement);
             } else {
                 field.insertAdjacentElement('afterend', errorElement);
             }
-
             return errorElement;
         }
 
@@ -102,7 +92,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const passwordField = document.getElementById('registerPassword');
         const confirmPasswordField = document.getElementById('registerPasswordConfirm');
-
         if (passwordField && confirmPasswordField) {
             confirmPasswordField.addEventListener('input', function () {
                 this.setCustomValidity(this.value !== passwordField.value ? 'Les mots de passe ne correspondent pas' : '');
@@ -110,8 +99,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         registerForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-
             let isValid = true;
             requiredFields.forEach(field => {
                 if (field.type === 'radio') {
@@ -124,31 +111,23 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             if (!isValid) {
+                e.preventDefault();
                 registerForm.classList.add('shake');
                 setTimeout(() => registerForm.classList.remove('shake'), 500);
-                return;
             }
-
-            registerButton.disabled = true;
-            registerButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Création du compte...';
-
-            setTimeout(() => {
-                window.location.href = 'index_service.html';
-            }, 1500);
         });
 
         registerButton.addEventListener('mouseenter', function () {
             this.style.transform = 'translateY(-2px)';
             this.style.boxShadow = '0 5px 15px rgba(239, 68, 68, 0.4)';
         });
-
         registerButton.addEventListener('mouseleave', function () {
             this.style.transform = 'translateY(0)';
             this.style.boxShadow = 'none';
         });
     }
 
-    /* ========== CONNEXION (Sign In) ========== */
+    // Connexion
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         animateForm(loginForm);
@@ -162,7 +141,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         function validateField(field) {
             const errorElement = document.getElementById(`${field.id}Error`) || createErrorElement(field);
-
             if (field.checkValidity()) {
                 field.classList.remove('invalid');
                 errorElement.textContent = '';
@@ -176,10 +154,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const errorElement = document.createElement('small');
             errorElement.id = `${field.id}Error`;
             errorElement.className = 'error-message';
-            errorElement.style.color = 'var(--primary)';
+            errorElement.style.color = 'red';
             errorElement.style.display = 'block';
             errorElement.style.marginTop = '5px';
-            errorElement.style.fontSize = '0.8rem';
             field.insertAdjacentElement('afterend', errorElement);
             return errorElement;
         }
@@ -193,8 +170,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         loginForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-
             let isValid = true;
             [emailField, passwordField].forEach(field => {
                 if (!field.value) {
@@ -204,24 +179,16 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             if (!isValid) {
+                e.preventDefault();
                 loginForm.classList.add('shake');
                 setTimeout(() => loginForm.classList.remove('shake'), 500);
-                return;
             }
-
-            loginButton.disabled = true;
-            loginButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connexion...';
-
-            setTimeout(() => {
-                window.location.href = 'index_service.html';
-            }, 1500);
         });
 
         loginButton.addEventListener('mouseenter', function () {
             this.style.transform = 'translateY(-2px)';
             this.style.boxShadow = '0 5px 15px rgba(239, 68, 68, 0.4)';
         });
-
         loginButton.addEventListener('mouseleave', function () {
             this.style.transform = 'translateY(0)';
             this.style.boxShadow = 'none';

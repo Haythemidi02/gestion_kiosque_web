@@ -17,10 +17,27 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="index_acceuil.html">Accueil</a></li>
-                    <li><a href="index_service.html">Services</a></li>
-                    <li><a href="index_classement.html">Classement</a></li>
-                    <li><a href="index_about_us.html">À propos</a></li>
+                    <li><a href="index_acceuil.php">Accueil</a></li>
+                    <li><a href="index_service.php">Services</a></li>
+                    <li><a href="index_classement.php">Classement</a></li>
+                    <li><a href="index_about_us.php">À propos</a></li>
+                    <li>
+                        <div class="user-dropdown">
+                          <div class="user-icon">
+                            <i class="fas fa-user"></i> 😊😊
+                          </div>
+                          <div class="dropdown-content">
+                            <a href="index_sign_in.php">Connecter</a>
+                            <a href="index_sign_up.php">Inscrivez-vous</a>
+                          </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="panier.php" class="cart-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-badge" id="cart-badge">0</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -52,7 +69,7 @@
                         <p class="produit-desc">Huile synthétique 5W-30 pour une protection optimale du moteur.</p>
                         <div class="produit-footer">
                             <span class="prix">29,99 €</span>
-                            <a href="#" class="btn-ajouter"><i class="fas fa-cart-plus"></i></a>
+                            <a href="#" class="btn-ajouter add-to-cart" data-product-id="201" data-product-name="Huile moteur EnergyFuel Premium" data-product-price="29.99"><i class="fas fa-cart-plus"></i></a>
                         </div>
                     </div>
                 </div>
@@ -65,7 +82,7 @@
                         <p class="produit-desc">Élimine efficacement les dépôts de frein et saletés tenaces.</p>
                         <div class="produit-footer">
                             <span class="prix">14,99 €</span>
-                            <a href="#" class="btn-ajouter"><i class="fas fa-cart-plus"></i></a>
+                            <a href="#" class="btn-ajouter add-to-cart" data-product-id="202" data-product-name="Nettoyant jantes professionnel" data-product-price="14.99"><i class="fas fa-cart-plus"></i></a>
                         </div>
                     </div>
                 </div>
@@ -79,7 +96,7 @@
                         <p class="produit-desc">Améliore les performances et réduit la consommation.</p>
                         <div class="produit-footer">
                             <span class="prix">9,99 €</span>
-                            <a href="#" class="btn-ajouter"><i class="fas fa-cart-plus"></i></a>
+                            <a href="#" class="btn-ajouter add-to-cart" data-product-id="203" data-product-name="Additif nettoyant injecteurs" data-product-price="9.99"><i class="fas fa-cart-plus"></i></a>
                         </div>
                     </div>
                 </div>
@@ -92,7 +109,7 @@
                         <p class="produit-desc">Protection hydrophobe pour une brillance durable.</p>
                         <div class="produit-footer">
                             <span class="prix">24,99 €</span>
-                            <a href="#" class="btn-ajouter"><i class="fas fa-cart-plus"></i></a>
+                            <a href="#" class="btn-ajouter add-to-cart" data-product-id="204" data-product-name="Cire protectrice longue durée" data-product-price="24.99"><i class="fas fa-cart-plus"></i></a>
                         </div>
                     </div>
                 </div>
@@ -105,7 +122,7 @@
                         <p class="produit-desc">Pour plastiques, cuirs et tissus sans traces.</p>
                         <div class="produit-footer">
                             <span class="prix">12,99 €</span>
-                            <a href="#" class="btn-ajouter"><i class="fas fa-cart-plus"></i></a>
+                            <a href="#" class="btn-ajouter add-to-cart" data-product-id="205" data-product-name="Nettoyant intérieur multi-surfaces" data-product-price="12.99"><i class="fas fa-cart-plus"></i></a>
                         </div>
                     </div>
                 </div>
@@ -120,7 +137,7 @@
                         <div class="produit-footer">
                             <span class="prix-promo">49,99 €</span>
                             <span class="prix-ancien">59,99 €</span>
-                            <a href="#" class="btn-ajouter"><i class="fas fa-cart-plus"></i></a>
+                            <a href="#" class="btn-ajouter add-to-cart" data-product-id="206" data-product-name="Kit d'entretien complet" data-product-price="49.99"><i class="fas fa-cart-plus"></i></a>
                         </div>
                     </div>
                 </div>
@@ -132,7 +149,7 @@
                         <p class="produit-desc">Diffusion longue durée avec 5 fragrances au choix.</p>
                         <div class="produit-footer">
                             <span class="prix">8,99 €</span>
-                            <a href="#" class="btn-ajouter"><i class="fas fa-cart-plus"></i></a>
+                            <a href="#" class="btn-ajouter add-to-cart" data-product-id="207" data-product-name="Parfum d'habitacle fraîcheur intense" data-product-price="8.99"><i class="fas fa-cart-plus"></i></a>
                         </div>
                     </div>
                 </div>
@@ -146,7 +163,7 @@
                         <p class="produit-desc">Trousse complète avec 32 accessoires pour dépannage.</p>
                         <div class="produit-footer">
                             <span class="prix">24,90 €</span>
-                            <a href="#" class="btn-ajouter"><i class="fas fa-cart-plus"></i></a>
+                            <a href="#" class="btn-ajouter add-to-cart" data-product-id="208" data-product-name="Kit de secours voiture" data-product-price="24.90"><i class="fas fa-cart-plus"></i></a>
                         </div>
                     </div>
                 </div>
@@ -159,7 +176,7 @@
                     <p class="produit-desc">4m avec protection contre les surtensions.</p>
                     <div class="produit-footer">
                         <span class="prix">29,99 €</span>
-                        <a href="#" class="btn-ajouter"><i class="fas fa-cart-plus"></i></a>
+                        <a href="#" class="btn-ajouter add-to-cart" data-product-id="209" data-product-name="Câbles de démarrage renforcés" data-product-price="29.99"><i class="fas fa-cart-plus"></i></a>
                     </div>
                     </div>
                 </div>
@@ -171,7 +188,7 @@
                         <p class="produit-desc">Idéale pour un lavage sans rayures.</p>
                         <div class="produit-footer">
                             <span class="prix">12,99 €</span>
-                            <a href="#" class="btn-ajouter"><i class="fas fa-cart-plus"></i></a>
+                            <a href="#" class="btn-ajouter add-to-cart" data-product-id="210" data-product-name="Brosse de lavage douce" data-product-price="12.99"><i class="fas fa-cart-plus"></i></a>
                         </div>
                     </div>
                 </div>
@@ -183,7 +200,7 @@
                         <p class="produit-desc">Ultra doux pour un lavage sans rayures.</p>
                         <div class="produit-footer">
                             <span class="prix">7,99 €</span>
-                            <a href="#" class="btn-ajouter"><i class="fas fa-cart-plus"></i></a>
+                            <a href="#" class="btn-ajouter add-to-cart" data-product-id="211" data-product-name="Gant de lavage microfibre" data-product-price="7.99"><i class="fas fa-cart-plus"></i></a>
                         </div>
                     </div>
                 </div>
@@ -195,7 +212,7 @@
                         <p class="produit-desc">Idéal pour le séchage et le polissage.</p>
                         <div class="produit-footer">
                             <span class="prix">4,99 €</span>
-                            <a href="#" class="btn-ajouter"><i class="fas fa-cart-plus"></i></a>
+                            <a href="#" class="btn-ajouter add-to-cart" data-product-id="212" data-product-name="Chiffon microfibre ultra-absorbant" data-product-price="4.99"><i class="fas fa-cart-plus"></i></a>
                         </div>
                     </div>
                 </div>

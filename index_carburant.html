@@ -17,10 +17,27 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="index_acceuil.html">Accueil</a></li>
-                    <li><a href="index_service.html">Services</a></li>
-                    <li><a href="index_classement.html">Classement</a></li>
-                    <li><a href="index_about_us.html">À propos</a></li>
+                    <li><a href="index_acceuil.php">Accueil</a></li>
+                    <li><a href="index_service.php">Services</a></li>
+                    <li><a href="index_classement.php">Classement</a></li>
+                    <li><a href="index_about_us.php">À propos</a></li>
+                    <li>
+                        <div class="user-dropdown">
+                          <div class="user-icon">
+                            <i class="fas fa-user"></i> 😊😊
+                          </div>
+                          <div class="dropdown-content">
+                            <a href="index_sign_in.php">Connecter</a>
+                            <a href="index_sign_up.php">Inscrivez-vous</a>
+                          </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="panier.php" class="cart-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-badge" id="cart-badge">0</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -61,7 +78,7 @@
                         <label for="quantite95">Quantité (L):</label>
                         <input type="number" id="quantite95" min="1" step="1" placeholder="Ex: 20">
                     </div>
-                    <a href="index_paiment.html" class="btn">Selectionner</a>
+                    <a class="btn add-to-cart" data-product-id="101" data-product-name="Essence sans plomb 95" data-product-price="1.589">Selectionner</a>
                 </div>
                 
                 <!-- Essence 98 -->
@@ -76,10 +93,10 @@
                         <span class="variation down"><i class="fas fa-arrow-down"></i> 0,01 €</span>
                     </div>
                     <div class="quantity-section">
-                        <label for="quantite95">Quantité (L):</label>
-                        <input type="number" id="quantite95" min="1" step="1" placeholder="Ex: 20">
+                        <label for="quantite98">Quantité (L):</label>
+                        <input type="number" id="quantite98" min="1" step="1" placeholder="Ex: 20">
                     </div>
-                    <a href="index_paiment.html" class="btn">Selectionner</a>
+                    <a class="btn add-to-cart" data-product-id="102" data-product-name="Essence sans plomb 98" data-product-price="1.689">Selectionner</a>
                 </div>
                 
                 <!-- Diesel -->
@@ -94,10 +111,10 @@
                         <span class="variation stable"><i class="fas fa-equals"></i></span>
                     </div>
                     <div class="quantity-section">
-                        <label for="quantite95">Quantité (L):</label>
-                        <input type="number" id="quantite95" min="1" step="1" placeholder="Ex: 20">
+                        <label for="quantiteDiesel">Quantité (L):</label>
+                        <input type="number" id="quantiteDiesel" min="1" step="1" placeholder="Ex: 20">
                     </div>
-                    <a href="index_paiment.html" class="btn">Selectionner</a>
+                    <a class="btn add-to-cart" data-product-id="103" data-product-name="Diesel haute performance" data-product-price="1.489">Selectionner</a>
                 </div>
                 
                 <!-- Electrique -->
@@ -111,10 +128,10 @@
                         <span class="prix">0,39 €/kWh</span>
                     </div>
                     <div class="quantity-section">
-                        <label for="quantite95">Quantité (kwh):</label>
-                        <input type="number" id="quantite95" min="1" step="1" placeholder="Ex: 20">
+                        <label for="quantiteElectrique">Quantité (kwh):</label>
+                        <input type="number" id="quantiteElectrique" min="1" step="1" placeholder="Ex: 20">
                     </div>
-                    <a href="index_paiment.html" class="btn">Selectionner</a>
+                    <a class="btn add-to-cart" data-product-id="104" data-product-name="Recharge électrique" data-product-price="0.39">Selectionner</a>
                 </div>
             </div>
         </div>
@@ -194,7 +211,7 @@
                     </div>
                     <div class="station-distance">
                         <p>1,2 km</p>
-                        <a href="#" class="btn-small"><i class="fas fa-route"></i> Itinéraire</a>
+                        <a class="btn-small"><i class="fas fa-route"></i> Itinéraire</a>
                     </div>
                 </div>
                 
@@ -207,7 +224,7 @@
                     </div>
                     <div class="station-distance">
                         <p>3,5 km</p>
-                        <a href="#" class="btn-small"><i class="fas fa-route"></i> Itinéraire</a>
+                        <a  class="btn-small"><i class="fas fa-route"></i> Itinéraire</a>
                     </div>
                 </div>
                 
@@ -220,7 +237,7 @@
                     </div>
                     <div class="station-distance">
                         <p>5,8 km</p>
-                        <a href="#" class="btn-small"><i class="fas fa-route"></i> Itinéraire</a>
+                        <a class="btn-small"><i class="fas fa-route"></i> Itinéraire</a>
                     </div>
                 </div>
             </div>

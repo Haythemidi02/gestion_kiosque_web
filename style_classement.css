@@ -80,6 +80,34 @@ nav ul li a:hover {
     margin-top: 3rem;
 }
 
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: var(--light);
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.dropdown-content a {
+    color: var(--dark);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s;
+}
+
+.dropdown-content a:hover {
+    background-color: var(--light);
+}
+
+.user-dropdown:hover .dropdown-content {
+    display: block;
+}
+
 .leaderboard-title {
     text-align: center;
     margin-bottom: 1.5rem;
@@ -108,6 +136,19 @@ nav ul li a:hover {
 
 .leaderboard-table tr:hover {
     background-color: #e0e0e0;
+}
+
+
+.user-icon {
+    color: var(--light);
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: color 0.3s;
+    padding: 5px;
+}
+
+.user-icon:hover {
+    color: var(--light);
 }
 
 .rank-1,

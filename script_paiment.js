@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Redirection après 3 secondes
         setTimeout(() => {
-            window.location.href = 'index_service.html';
+            window.location.href = 'index_service.php';
         }, 3000);
     }
 });

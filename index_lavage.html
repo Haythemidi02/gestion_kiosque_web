@@ -16,7 +16,7 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="index_acceuil.html">Accueil</a></li>
+                    <li><a href="index_acceuil.php">Accueil</a></li>
                     <li><a href="index_service.html">Services</a></li>
                     <li><a href="index_classement.html">Classement</a></li>
                     <li><a href="index_about_us.html">À propos</a></li>
@@ -63,7 +63,7 @@
                             <li>Séchage à la main</li>
                             <li>Dépoussiérage intérieur</li>
                         </ul>
-                        <a href="index_paiment.html" class="btn">Réserver</a>
+                        <a href="#" class="btn" data-name="Formule Basique" data-price="19.90">Réserver</a>
                     </div>
                 </div>
                 
@@ -81,7 +81,7 @@
                             <li>Traitement des plastiques</li>
                             <li>Nettoyage des vitres</li>
                         </ul>
-                        <a href="index_paiment.html" class="btn">Réserver</a>
+                        <a href="#" class="btn" data-name="Formule Premium" data-price="34.90">Réserver</a>
                     </div>
                 </div>
                 
@@ -102,7 +102,7 @@
                             <li>Shampoing des sièges et tapis</li>
                             <li>Cire protectrice</li>
                         </ul>
-                        <a href="index_paiment.html" class="btn">Réserver</a>
+                        <a href="#" class="btn" data-name="Formule Deluxe" data-price="59.90">Réserver</a>
                     </div>
                 </div>
             </div>
@@ -281,5 +281,26 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = document.querySelectorAll('.btn[data-name][data-price]');
+            buttons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const name = button.getAttribute('data-name');
+                    const price = button.getAttribute('data-price');
+                    addToCart(name, price);
+                });
+            });
+
+            function addToCart(name, price) {
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                cart.push({ name, price });
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert(`${name} a été ajouté au panier pour ${price} €.`);
+            }
+        });
+    </script>
 </body>
 </html>

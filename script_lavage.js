@@ -32,7 +32,38 @@ document.addEventListener('DOMContentLoaded', function() {
             };
             
             localStorage.setItem('selectedService', JSON.stringify(selectedService));
-            window.location.href = 'index_paiment.html';
         });
     });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const cartBadge = document.getElementById("cart-badge");
+
+    function updateCartBadge() {
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        cartBadge.textContent = totalItems;
+    }
+
+    function addToCart(productId, productName, productPrice) {
+        const existingProduct = cart.find(item => item.id === productId);
+        if (existingProduct) {
+            existingProduct.quantity += 1;
+        } else {
+            cart.push({ id: productId, name: productName, price: productPrice, quantity: 1 });
+        }
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCartBadge();
+    }
+
+    document.querySelectorAll(".btn[data-name][data-price]").forEach(button => {
+        button.addEventListener("click", () => {
+            const productName = button.getAttribute("data-name");
+            const productPrice = parseFloat(button.getAttribute("data-price"));
+            const productId = `lavage-${productName.replace(/\s+/g, '-').toLowerCase()}`;
+            addToCart(productId, productName, productPrice);
+        });
+    });
+
+    updateCartBadge();
 });
