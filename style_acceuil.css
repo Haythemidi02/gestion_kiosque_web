@@ -134,7 +134,7 @@ nav ul li a:hover {
     width: 100%;
     max-width: 2000px;
     height: 1000px;
-    background: url('acceuil.jpg') no-repeat center center/cover;
+    background: url('images/acceuil.jpg') no-repeat center center/cover;
     border-radius: 12px;
     overflow: hidden;
     display: flex;

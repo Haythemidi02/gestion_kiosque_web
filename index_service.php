@@ -86,7 +86,7 @@
                     <li>Additifs pour carburant</li>
                 </ul>
                 <p class="price-tag">Prix variés</p>
-                <a href="index_produit.html" class="btn">Voir notre catalogue</a>
+                <a href="index_produit.php" class="btn">Voir notre catalogue</a>
             </div>
         </div>
         
@@ -176,9 +176,9 @@
                     <p>Téléphone: (+216) 27 312 507</p>
                     <p>Email: haythem.idi@ensi-uma.tn</p>
                     <div class="social-links">
-                        <a href="#"><img src="facebook.png" alt="Facebook"></a>
-                        <a href="#"><img src="instagram.png" alt="Instagram"></a>
-                        <a href="#"><img src="twitter.png" alt="Twitter"></a>
+                        <a href="#"><img src="images/facebook.png" alt="Facebook"></a>
+                        <a href="#"><img src="images/instagram.png" alt="Instagram"></a>
+                        <a href="#"><img src="images/twitter.png" alt="Twitter"></a>
                     </div>
                 </div>
             </div>

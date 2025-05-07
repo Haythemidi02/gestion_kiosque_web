@@ -67,3 +67,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateCartBadge();
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('.btn[data-name][data-price]');
+    buttons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault();
+            const name = button.getAttribute('data-name');
+            const price = button.getAttribute('data-price');
+            addToCart(name, price);
+        });
+    });
+
+    function addToCart(name, price) {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart.push({ name, price });
+        localStorage.setItem('cart', JSON.stringify(cart));
+        alert(`${name} a été ajouté au panier pour ${price} €.`);
+    }
+});

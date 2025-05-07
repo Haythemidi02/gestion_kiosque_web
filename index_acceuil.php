@@ -82,7 +82,7 @@
 <!-- we are the best in gas-->
         <div class="best-features">
             <div class="image-container">
-                <img src="gas-station-8626683_1920.jpg" alt="Station-service">
+                <img src="images/gas-station-8626683_1920.jpg" alt="Station-service">
             </div>
             <div class="features">
                 <div class="feature">
@@ -116,7 +116,7 @@
                 </div>
             </div>
             <div class="image-container">
-                <img src="car-wash-1619823_1920.jpg" alt="Lavage-auto">
+                <img src="images/car-wash-1619823_1920.jpg" alt="Lavage-auto">
             </div>
         </div>
 <!-- plus d'infos -->
@@ -130,19 +130,19 @@
     <p>cette équipe fait tous pour vous offrir les meilleurs services 24/7</p>
         <div class="testimonials-container">
             <div class="testimonial-card">
-                <img src="1000167349.jpg" alt="Author 1" class="author-image">
+                <img src="images/1000167349.jpg" alt="Author 1" class="author-image">
                 <h2>Amine Harrabi</h2>
                 <p>Gérant de la Station</p>
                 <p><strong>Passionné </strong>par le secteur de l’énergie, Amine supervise les opérations quotidiennes de la station. Avec plus de 10 ans d'expérience, il s'assure que chaque service — du ravitaillement au lavage auto — fonctionne efficacement et offre une expérience client irréprochable.</p>
             </div>
             <div class="testimonial-card">
-                <img src="1000167348.jpg" alt="Author 2" class="author-image">
+                <img src="images/1000167348.jpg" alt="Author 2" class="author-image">
                 <h2>Ilyess Saddi</h2>
                 <p>Responsable des Services Clients</p>
                 <p><strong>Expert </strong> en relation client, Ilyess est le visage accueillant de la station. il gère les réservations, les paiements et le suivi des clients fidèles. Son objectif ? Offrir un service personnalisé et rapide à chaque visite.</p>
             </div>
             <div class="testimonial-card">
-                <img src="1000167346.jpg" alt="Author 3" class="author-image">
+                <img src="images/1000167346.jpg" alt="Author 3" class="author-image">
                 <h2>Haythem Idi</h2>
                 <p>Chef des Opérations Techniques</p>
                 <p><strong>Spécialiste </strong> des infrastructures énergétiques, Haythem s'assure que tous les équipements — pompes à carburant, bornes électriques, et installations de lavage — fonctionnent de manière optimale. Il joue un rôle clé dans la modernisation de la station.</p>
@@ -189,11 +189,11 @@
         <div class="social-media">
           <h4>Suivez-nous</h4>
           <ul>
-            <li><img src="facebook.png" width="20px" height="20px"><a href="#">Facebook</a></li>
-            <li><img src="instagram.png" width="20px" height="20px"><a href="#">Instagram</a></li>
-            <li><img src="twitter.png" width="20px" height="20px"><a href="#">X</a></li>
-            <li><img src="linkedin.png" width="20px" height="20px"><a href="#">LinkedIn</a></li>
-            <li><img src="youtube.png" width="20px" height="20px"><a href="#">Youtube</a></li>
+            <li><img src="images/facebook.png" width="20px" height="20px"><a href="#">Facebook</a></li>
+            <li><img src="images/instagram.png" width="20px" height="20px"><a href="#">Instagram</a></li>
+            <li><img src="images/twitter.png" width="20px" height="20px"><a href="#">X</a></li>
+            <li><img src="images/linkedin.png" width="20px" height="20px"><a href="#">LinkedIn</a></li>
+            <li><img src="images/youtube.png" width="20px" height="20px"><a href="#">Youtube</a></li>
           </ul>
         </div>
       </div>
