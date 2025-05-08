@@ -26,7 +26,6 @@ if (!isset($_SESSION['email'])) {
             <ul>
                 <li><a href="index_acceuil.php" id="navHome">Accueil</a></li>
                 <li><a href="index_service.php" id="navServices">Services</a></li>
-                <li><a href="index_classement.php" id="navLeaderboard">Classement</a></li>
                 <li><a href="index_about_us.php" id="navAccount">about us</a></li>
                 <li>
                     <div class="user-dropdown">
@@ -43,6 +42,12 @@ if (!isset($_SESSION['email'])) {
                         </div>
                     </div>
                 </li>
+                <li>
+                    <a href="panier.php" class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-badge" id="cart-badge">0</span>
+                    </a>
+                </li>
             </ul>
         </nav>
     </header>
@@ -55,7 +60,6 @@ if (!isset($_SESSION['email'])) {
         
         <div style="text-align: center; margin-top: 2rem;">
             <p style="font-size: 1.2rem; margin-bottom: 1rem;">Un reçu a été envoyé à votre adresse email.</p>
-            <p>Vous avez gagné <span id="pointsEarned">20</span> points de fidélité !</p>
             <section>
                 <a href="index_service.php" class="btn" >Retour aux service</a>
             </section>

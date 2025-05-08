@@ -1,3 +1,23 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['email'])) {
+    header("Location: index_sign_in.php");
+    exit;
+}
+
+require_once 'config.php';
+
+// Récupérer les produits de la catégorie 'Lavage auto' (category_id = 2)
+$sql = "SELECT p.* 
+        FROM products p 
+        JOIN categories c ON p.category_id = c.id 
+        WHERE c.name = 'Lavage auto' AND p.status = 1 
+        ORDER BY p.price ASC";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$lavage_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -23,7 +43,6 @@
                 <ul>
                     <li><a href="index_acceuil.php">Accueil</a></li>
                     <li><a href="index_service.php">Services</a></li>
-                    <li><a href="index_classement.php">Classement</a></li>
                     <li><a href="index_about_us.php">À propos</a></li>
                     <li>
                         <div class="user-dropdown">
@@ -39,6 +58,12 @@
                                 <?php endif; ?>
                             </div>
                         </div>
+                    </li>
+                    <li>
+                        <a href="panier.php" class="cart-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-badge" id="cart-badge">0</span>
+                        </a>
                     </li>
                 </ul>
             </nav>
@@ -66,69 +91,51 @@
         </div>
     </section>
 
-    <!-- Formules Section -->
-    <section class="formules" id="formules">
+    <!-- Service Details Section (inchangé) -->
+    <section class="service-details">
         <div class="container">
-            <h2>Nos formules de lavage</h2>
-            <div class="formule-cards">
-                <!-- Formule 1 -->
-                <div class="formule-card">
-                    <img src="images/lavage_basique.jpg" alt="Formule Basique">
-                    <div class="formule-content">
-                        <h3>Formule Basique</h3>
-                        <p class="price">19,90 €</p>
-                        <ul>
-                            <li>Lavage extérieur</li>
-                            <li>Nettoyage des jantes</li>
-                            <li>Séchage à la main</li>
-                            <li>Dépoussiérage intérieur</li>
-                        </ul>
-                        <a href="#" class="btn" data-name="Formule Basique" data-price="19.90">Réserver</a>
-                    </div>
-                </div>
-                
-                <!-- Formule 2 -->
-                <div class="formule-card">
-                    <img src="images/lavage_premium.jpg" alt="Formule Premium">
-                    <div class="formule-content">
-                        <h3>Formule Premium</h3>
-                        <p class="price">34,90 €</p>
-                        <ul>
-                            <li>Lavage extérieur</li>
-                            <li>Nettoyage des jantes</li>
-                            <li>Séchage à la main</li>
-                            <li>Nettoyage intérieur complet</li>
-                            <li>Traitement des plastiques</li>
-                            <li>Nettoyage des vitres</li>
-                        </ul>
-                        <a href="#" class="btn" data-name="Formule Premium" data-price="34.90">Réserver</a>
-                    </div>
-                </div>
-                
-                <!-- Formule 3 -->
-                <div class="formule-card">
-                    <img src="images/lavage_deluxejpg.jpg" alt="Formule Deluxe">
-                    <div class="formule-content">
-                        <h3>Formule Deluxe</h3>
-                        <p class="price">59,90 €</p>
-                        <ul>
-                            <li>Lavage extérieur</li>
-                            <li>Nettoyage des jantes</li>
-                            <li>Séchage à la main</li>
-                            <li>Nettoyage intérieur complet</li>
-                            <li>Traitement des plastiques</li>
-                            <li>Nettoyage des vitres</li>
-                            <li>Polissage et lustrage</li>
-                            <li>Shampoing des sièges et tapis</li>
-                            <li>Cire protectrice</li>
-                        </ul>
-                        <a href="#" class="btn" data-name="Formule Deluxe" data-price="59.90">Réserver</a>
-                    </div>
-                </div>
+            <div class="service-intro">
+                <h2>Pourquoi choisir notre service de lavage auto ?</h2>
+                <p>Chez EnergyFuel, nous utilisons des techniques de lavage avancées et des produits de haute qualité pour garantir un résultat impeccable.</p>
             </div>
         </div>
     </section>
 
+    <!-- Formules Section (dynamique) -->
+    <section class="formules" id="formules">
+        <div class="container">
+            <h2>Nos formules de lavage</h2>
+            <div class="produits-grid">
+                <?php foreach ($lavage_products as $p): ?>
+                    <div class="produit-card">
+                        <?php if ($p['discount'] > 0): ?>
+                            <div class="produit-badge">Promo</div>
+                        <?php endif; ?>
+                        <img src="images/<?php echo htmlspecialchars($p['image']); ?>" alt="<?php echo htmlspecialchars($p['name']); ?>">
+                        <div class="produit-info">
+                            <h3><?= htmlspecialchars($p['name']) ?></h3>
+                            <p class="produit-desc"><?= htmlspecialchars($p['description']) ?></p>
+                            <div class="produit-footer">
+                                <?php if ($p['discount'] > 0): ?>
+                                    <?php $prixPromo = $p['price'] * (1 - $p['discount'] / 100); ?>
+                                    <span class="prix-promo"><?= number_format($prixPromo, 2, ',', ' ') ?> €</span>
+                                    <span class="prix-ancien"><?= number_format($p['price'], 2, ',', ' ') ?> €</span>
+                                <?php else: ?>
+                                    <span class="prix"><?= number_format($p['price'], 2, ',', ' ') ?> €</span>
+                                <?php endif; ?>
+                                <a href="#" class="btn-ajouter add-to-cart"
+                                   data-product-id="<?= $p['id'] ?>"
+                                   data-product-name="<?= htmlspecialchars($p['name']) ?>"
+                                   data-product-price="<?= number_format($p['discount'] > 0 ? $prixPromo : $p['price'], 2) ?>">
+                                    <i class="fas fa-cart-plus"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
     <!-- Process Section -->
     <section class="process">
         <div class="container">

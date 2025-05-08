@@ -74,66 +74,36 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialiser les animations
     animateOnScroll();
 });
-
-document.addEventListener('DOMContentLoaded', function() {
-    const selectButtons = document.querySelectorAll('.carburant-card .btn');
+document.addEventListener('DOMContentLoaded', () => {
+    const addToCartButtons = document.querySelectorAll('.add-to-cart');
     
-    selectButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
             e.preventDefault();
             
-            const card = this.closest('.carburant-card');
-            const fuelType = card.querySelector('h3').textContent;
-            const priceText = card.querySelector('.prix').textContent;
-            const price = parseFloat(priceText.replace(' €/L', '').replace(' €/kWh', ''));
-            const quantityInput = card.querySelector('input[type="number"]');
-            const quantity = quantityInput.value || 1;
-            const unit = card.querySelector('.carburant-icon i').classList.contains('fa-charging-station') ? 'kWh' : 'L';
+            const productId = button.getAttribute('data-product-id');
+            const productName = button.getAttribute('data-product-name');
+            const productPrice = parseFloat(button.getAttribute('data-product-price'));
             
-            const selectedService = {
-                type: 'carburant',
-                name: `${fuelType} (${quantity}${unit})`,
-                price: price,
-                quantity: quantity,
-                unit: unit
-            };
+            // Récupérer le panier depuis le localStorage
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
             
-            localStorage.setItem('selectedService', JSON.stringify(selectedService));
-            localStorage.setItem('quantity', quantity);
+            // Ajouter le produit au panier
+            cart.push({
+                id: productId,
+                name: productName,
+                price: productPrice,
+                type: 'lavage'
+            });
+            
+            // Mettre à jour le localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // Mettre à jour le badge du panier
+            const cartBadge = document.getElementById('cart-badge');
+            cartBadge.textContent = cart.length;
+            
+            alert(`${productName} a été ajouté au panier !`);
         });
     });
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const cartBadge = document.getElementById("cart-badge");
-
-    function updateCartBadge() {
-        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        cartBadge.textContent = totalItems;
-    }
-
-    function addToCart(productId, productName, productPrice, quantity) {
-        const existingProduct = cart.find(item => item.id === productId);
-        if (existingProduct) {
-            existingProduct.quantity += quantity;
-        } else {
-            cart.push({ id: productId, name: productName, price: productPrice, quantity });
-        }
-        localStorage.setItem("cart", JSON.stringify(cart));
-        updateCartBadge();
-    }
-
-    document.querySelectorAll(".add-to-cart").forEach(button => {
-        button.addEventListener("click", () => {
-            const productId = button.getAttribute("data-product-id");
-            const productName = button.getAttribute("data-product-name");
-            const productPrice = parseFloat(button.getAttribute("data-product-price"));
-            const quantityInput = button.previousElementSibling.querySelector("input");
-            const quantity = parseInt(quantityInput?.value || 1);
-            addToCart(productId, productName, productPrice, quantity);
-        });
-    });
-
-    updateCartBadge();
 });

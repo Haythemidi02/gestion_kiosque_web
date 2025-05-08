@@ -24,7 +24,6 @@
             <ul>
                 <li><a href="index_acceuil.php" id="navHome">Accueil</a></li>
                 <li><a href="index_service.php" id="navServices">Services</a></li>
-                <li><a href="index_classement.php" id="navLeaderboard">Classement</a></li>
                 <li><a href="index_about_us.php" id="navAccount">about us</a></li>
                 <li>
                     <div class="user-dropdown">

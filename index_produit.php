@@ -1,11 +1,19 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['email'])) {
+    header("Location: index_sign_in.php");
+    exit;
+}
+
 require_once 'config.php';
 
-$sql = "SELECT p.*, c.name AS category_name 
+// Récupérer les produits des catégories autres que 'Lavage auto' et 'Carburants'
+$sql = "SELECT p.* 
         FROM products p 
-        LEFT JOIN categories c ON p.category_id = c.id 
-        ORDER BY p.name ASC";
-
+        JOIN categories c ON p.category_id = c.id 
+        WHERE c.name NOT IN ('Lavage auto', 'Carburants') AND p.status = 1 
+        ORDER BY p.price ASC";
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $top_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -36,7 +44,6 @@ $top_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <ul>
                     <li><a href="index_acceuil.php">Accueil</a></li>
                     <li><a href="index_service.php">Services</a></li>
-                    <li><a href="index_classement.php">Classement</a></li>
                     <li><a href="index_about_us.php">about us</a></li>
                     <li>
                     <div class="user-dropdown">
@@ -68,50 +75,48 @@ $top_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <section class="hero">
         <div class="hero-content">
             <div class="container">
-                <h1>Produits d'entretien automobile</h1>
-                <p>Découvrez notre gamme complète de produits de qualité pour l'entretien et l'amélioration des performances de votre véhicule</p>
-                <a href="#produits-phares" class="btn">Voir nos produits</a>
+                <h1>Nos Produits d'Entretien</h1>
+                <p>Découvrez notre gamme de produits pour votre véhicule</p>
+                <a href="#produits-phares" class="btn">Voir les produits</a>
             </div>
         </div>
     </section>
 
-    <!-- Produits phares -->
+    <!-- Produits Phares Section -->
     <section class="produits-phares" id="produits-phares">
-    <div class="container">
-        <h2>Nos produits phares</h2>
-        <div class="produits-grid">
-            <?php foreach ($top_products as $p): ?>
-                <div class="produit-card">
-                    <?php if ($p['discount'] > 0): ?>
-                        <div class="produit-badge">Promo</div>
-                    <?php endif; ?>
-                    <img src="images/<?php echo htmlspecialchars($p['image']); ?>" alt="<?php echo htmlspecialchars($p['name']); ?>">
-                    <div class="produit-info">
-                        <h3><?= htmlspecialchars($p['name']) ?></h3>
-                        <p class="produit-desc"><?= htmlspecialchars($p['description']) ?></p>
-                        <div class="produit-footer">
-                            <?php if ($p['discount'] > 0): ?>
-                                <?php
-                                $prixPromo = $p['price'] * (1 - $p['discount'] / 100);
-                                ?>
-                                <span class="prix-promo"><?= number_format($prixPromo, 2, ',', ' ') ?> €</span>
-                                <span class="prix-ancien"><?= number_format($p['price'], 2, ',', ' ') ?> €</span>
-                            <?php else: ?>
-                                <span class="prix"><?= number_format($p['price'], 2, ',', ' ') ?> €</span>
-                            <?php endif; ?>
-                            <a href="#" class="btn-ajouter add-to-cart"
-                               data-product-id="<?= $p['id'] ?>"
-                               data-product-name="<?= htmlspecialchars($p['name']) ?>"
-                               data-product-price="<?= number_format($p['price'], 2) ?>">
-                                <i class="fas fa-cart-plus"></i>
-                            </a>
+        <div class="container">
+            <h2>Nos produits phares</h2>
+            <div class="produits-grid">
+                <?php foreach ($top_products as $p): ?>
+                    <div class="produit-card">
+                        <?php if ($p['discount'] > 0): ?>
+                            <div class="produit-badge">Promo</div>
+                        <?php endif; ?>
+                        <img src="images/<?php echo htmlspecialchars($p['image']); ?>" alt="<?php echo htmlspecialchars($p['name']); ?>">
+                        <div class="produit-info">
+                            <h3><?= htmlspecialchars($p['name']) ?></h3>
+                            <p class="produit-desc"><?= htmlspecialchars($p['description']) ?></p>
+                            <div class="produit-footer">
+                                <?php if ($p['discount'] > 0): ?>
+                                    <?php $prixPromo = $p['price'] * (1 - $p['discount'] / 100); ?>
+                                    <span class="prix-promo"><?= number_format($prixPromo, 2, ',', ' ') ?> €</span>
+                                    <span class="prix-ancien"><?= number_format($p['price'], 2, ',', ' ') ?> €</span>
+                                <?php else: ?>
+                                    <span class="prix"><?= number_format($p['price'], 2, ',', ' ') ?> €</span>
+                                <?php endif; ?>
+                                <a href="#" class="btn-ajouter add-to-cart"
+                                   data-product-id="<?= $p['id'] ?>"
+                                   data-product-name="<?= htmlspecialchars($p['name']) ?>"
+                                   data-product-price="<?= number_format($p['discount'] > 0 ? $prixPromo : $p['price'], 2) ?>">
+                                    <i class="fas fa-cart-plus"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
     <!-- FAQ Section -->
 <section class="faq">
     <div class="container">

@@ -63,7 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <ul>
                 <li><a href="index_acceuil.php">Accueil</a></li>
                 <li><a href="index_service.php">Services</a></li>
-                <li><a href="index_classement.php">Classement</a></li>
                 <li><a href="index_about_us.php">about us</a></li>
             </ul>
         </nav>

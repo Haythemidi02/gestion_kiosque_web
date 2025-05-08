@@ -80,38 +80,36 @@ faqItems.forEach(item => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const cartBadge = document.getElementById("cart-badge");
+    const addToCartButtons = document.querySelectorAll(".add-to-cart");
 
-    function updateCartBadge() {
-        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-        cartBadge.textContent = totalItems;
-    }
-
-    function addToCart(productId, productName, productPrice) {
-        const existingProduct = cart.find(item => item.id === productId);
-        if (existingProduct) {
-            existingProduct.quantity += 1;
-        } else {
-            cart.push({ id: productId, name: productName, price: productPrice, quantity: 1 });
-        }
-        localStorage.setItem("cart", JSON.stringify(cart));
-        updateCartBadge();
-    }
-
-    // Recharger les données du panier au chargement de la page
-    if (cart.length > 0) {
-        updateCartBadge();
-    }
-
-    document.querySelectorAll(".btn-ajouter").forEach(button => {
+    addToCartButtons.forEach(button => {
         button.addEventListener("click", () => {
-            const productId = button.getAttribute("data-product-id");
-            const productName = button.getAttribute("data-product-name");
-            const productPrice = parseFloat(button.getAttribute("data-product-price"));
-            addToCart(productId, productName, productPrice);
+            const productId = button.dataset.productId;
+            const productName = button.dataset.productName;
+            const productPrice = parseFloat(button.dataset.productPrice);
+            const quantityInput = button.parentElement.querySelector("input[type='number']");
+            const quantity = quantityInput ? parseInt(quantityInput.value) : 1;
+
+            if (quantity > 0) {
+                const cart = JSON.parse(localStorage.getItem("cart")) || [];
+                const existingProductIndex = cart.findIndex(item => item.id === productId);
+
+                if (existingProductIndex !== -1) {
+                    cart[existingProductIndex].quantity += quantity;
+                } else {
+                    cart.push({
+                        id: productId,
+                        name: productName,
+                        price: productPrice,
+                        quantity: quantity
+                    });
+                }
+
+                localStorage.setItem("cart", JSON.stringify(cart));
+                alert(`${productName} a été ajouté au panier.`);
+            } else {
+                alert("Veuillez entrer une quantité valide.");
+            }
         });
     });
-
-    updateCartBadge();
 });

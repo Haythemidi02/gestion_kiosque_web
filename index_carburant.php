@@ -1,4 +1,23 @@
-<?php session_start(); ?>
+<?php
+session_start();
+
+if (!isset($_SESSION['email'])) {
+    header("Location: index_sign_in.php");
+    exit;
+}
+
+require_once 'config.php';
+
+// Récupérer les produits de la catégorie 'Carburants' (category_id = 3)
+$sql = "SELECT p.* 
+        FROM products p 
+        JOIN categories c ON p.category_id = c.id 
+        WHERE c.name = 'Carburants' AND p.status = 1 
+        ORDER BY p.price ASC";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$carburant_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -24,7 +43,6 @@
                 <ul>
                     <li><a href="index_acceuil.php">Accueil</a></li>
                     <li><a href="index_service.php">Services</a></li>
-                    <li><a href="index_classement.php">Classement</a></li>
                     <li><a href="index_about_us.php">À propos</a></li>
                     <li>
                         <div class="user-dropdown">
@@ -47,6 +65,12 @@
                             <span class="cart-badge" id="cart-badge">0</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="panier.php" class="cart-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-badge" id="cart-badge">0</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -56,92 +80,45 @@
     <section class="hero">
         <div class="hero-content">
             <div class="container">
-                <h1>Carburants de qualité supérieure</h1>
-                <p>Optimisez les performances de votre moteur avec nos carburants haut de gamme et notre système de fidélité avantageux</p>
-                <a href="#localiser" class="btn">Trouver une station</a>
+                <h1>Nos Carburants de Qualité</h1>
+                <p>Des carburants performants pour votre véhicule</p>
+                <a href="#carburants" class="btn">Voir nos carburants</a>
             </div>
         </div>
     </section>
 
-    <!-- Types de carburant -->
-    <section class="types-carburant">
+    <!-- Carburants Section -->
+    <section class="carburants" id="carburants">
         <div class="container">
-            <div class="section-intro">
-                <h2>Nos carburants</h2>
-                <p>Nous proposons une gamme complète de carburants adaptés à tous les véhicules, avec des additifs spéciaux pour améliorer les performances.</p>
-            </div>
-            
-            <div class="carburant-grid">
-                <!-- Essence 95 -->
-                <div class="carburant-card">
-                    <div class="carburant-icon">
-                        <i class="fas fa-gas-pump"></i>
+            <h2>Nos carburants</h2>
+            <div class="produits-grid">
+                <?php foreach ($carburant_products as $p): ?>
+                    <div class="produit-card">
+                        <?php if ($p['discount'] > 0): ?>
+                            <div class="produit-badge">Promo</div>
+                        <?php endif; ?>
+                        <img src="images/<?php echo htmlspecialchars($p['image']); ?>" alt="<?php echo htmlspecialchars($p['name']); ?>">
+                        <div class="produit-info">
+                            <h3><?= htmlspecialchars($p['name']) ?></h3>
+                            <p class="produit-desc"><?= htmlspecialchars($p['description']) ?></p>
+                            <div class="produit-footer">
+                                <?php if ($p['discount'] > 0): ?>
+                                    <?php $prixPromo = $p['price'] * (1 - $p['discount'] / 100); ?>
+                                    <span class="prix-promo"><?= number_format($prixPromo, 2, ',', ' ') ?> €</span>
+                                    <span class="prix-ancien"><?= number_format($p['price'], 2, ',', ' ') ?> €</span>
+                                <?php else: ?>
+                                    <span class="prix"><?= number_format($p['price'], 2, ',', ' ') ?> €</span>
+                                <?php endif; ?>
+                                <a href="#" class="btn-ajouter add-to-cart"
+                                   data-product-id="<?= $p['id'] ?>"
+                                   data-product-name="<?= htmlspecialchars($p['name']) ?>"
+                                   data-product-price="<?= number_format($p['discount'] > 0 ? $prixPromo : $p['price'], 2) ?>">
+                                    <i class="fas fa-cart-plus"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <h3>Essence sans plomb 95</h3>
-                    <p>Carburant standard pour tous les véhicules essence, avec additifs nettoyants.</p>
-                    <div class="prix-jour">
-                        <span class="prix">1,589 €/L</span>
-                        <span class="variation up"><i class="fas fa-arrow-up"></i> 0,02 €</span>
-                    </div>
-                    <div class="quantity-section">
-                        <label for="quantite95">Quantité (L):</label>
-                        <input type="number" id="quantite95" min="1" step="1" placeholder="Ex: 20">
-                    </div>
-                    <a class="btn add-to-cart" data-product-id="101" data-product-name="Essence sans plomb 95" data-product-price="1.589">Selectionner</a>
-                </div>
-                
-                <!-- Essence 98 -->
-                <div class="carburant-card">
-                    <div class="carburant-icon">
-                        <i class="fas fa-gas-pump"></i>
-                    </div>
-                    <h3>Essence sans plomb 98</h3>
-                    <p>Haute performance pour moteurs exigeants, réduit la consommation.</p>
-                    <div class="prix-jour">
-                        <span class="prix">1,689 €/L</span>
-                        <span class="variation down"><i class="fas fa-arrow-down"></i> 0,01 €</span>
-                    </div>
-                    <div class="quantity-section">
-                        <label for="quantite98">Quantité (L):</label>
-                        <input type="number" id="quantite98" min="1" step="1" placeholder="Ex: 20">
-                    </div>
-                    <a class="btn add-to-cart" data-product-id="102" data-product-name="Essence sans plomb 98" data-product-price="1.689">Selectionner</a>
-                </div>
-                
-                <!-- Diesel -->
-                <div class="carburant-card">
-                    <div class="carburant-icon">
-                        <i class="fas fa-gas-pump"></i>
-                    </div>
-                    <h3>Diesel haute performance</h3>
-                    <p>Réduit les émissions et améliore le rendement du moteur.</p>
-                    <div class="prix-jour">
-                        <span class="prix">1,489 €/L</span>
-                        <span class="variation stable"><i class="fas fa-equals"></i></span>
-                    </div>
-                    <div class="quantity-section">
-                        <label for="quantiteDiesel">Quantité (L):</label>
-                        <input type="number" id="quantiteDiesel" min="1" step="1" placeholder="Ex: 20">
-                    </div>
-                    <a class="btn add-to-cart" data-product-id="103" data-product-name="Diesel haute performance" data-product-price="1.489">Selectionner</a>
-                </div>
-                
-                <!-- Electrique -->
-                <div class="carburant-card">
-                    <div class="carburant-icon">
-                        <i class="fas fa-charging-station"></i>
-                    </div>
-                    <h3>Recharge électrique</h3>
-                    <p>Bornes rapides pour véhicules électriques, recharge en 30 min.</p>
-                    <div class="prix-jour">
-                        <span class="prix">0,39 €/kWh</span>
-                    </div>
-                    <div class="quantity-section">
-                        <label for="quantiteElectrique">Quantité (kwh):</label>
-                        <input type="number" id="quantiteElectrique" min="1" step="1" placeholder="Ex: 20">
-                    </div>
-                    <a class="btn add-to-cart" data-product-id="104" data-product-name="Recharge électrique" data-product-price="0.39">Selectionner</a>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>

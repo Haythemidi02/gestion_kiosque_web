@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['email'])) {
+    header("Location: index_sign_in.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -19,7 +27,6 @@
             <ul>
                 <li><a href="index_acceuil.php" id="navHome">Accueil</a></li>
                 <li><a href="index_service.php" id="navServices">Services</a></li>
-                <li><a href="index_classement.php" id="navLeaderboard">Classement</a></li>
                 <li><a href="index_about_us.php" id="navAccount">about us</a></li>
                 <li>
                     <div class="user-dropdown">
@@ -35,6 +42,12 @@
                             <?php endif; ?>
                         </div>
                     </div>
+                </li>
+                <li>
+                    <a href="panier.php" class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-badge" id="cart-badge">0</span>
+                    </a>
                 </li>
             </ul>
         </nav>
