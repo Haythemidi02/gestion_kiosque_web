@@ -76,7 +76,12 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 // Fonctions CRUD pour les produits
 function getAllProducts() {
     global $pdo;
-    $stmt = $pdo->query("SELECT * FROM products ORDER BY name ASC");
+    $stmt = $pdo->query("
+        SELECT p.*, c.name as category_name 
+        FROM products p
+        LEFT JOIN categories c ON p.category_id = c.id
+        ORDER BY p.name ASC
+    ");
     return $stmt->fetchAll();
 }
 function getProductById($id) {
@@ -87,52 +92,70 @@ function getProductById($id) {
 }
 function saveProduct($data) {
     global $pdo;
-
+    
     // Gérer l'upload de l'image
-    $imagePath = null;
+    $imagePath = $data['current_image'] ?? null;
+    
     if (isset($_FILES['product_image']) && $_FILES['product_image']['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = 'images/'; // Dossier où les images seront stockées
-        $imageName = basename($_FILES['product_image']['name']);
+        $uploadDir = 'images/';
+        
+        // Créer le dossier s'il n'existe pas
+        if (!file_exists($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
+        
+        // Supprimer l'ancienne image si elle existe
+        if ($imagePath && file_exists($uploadDir . $imagePath)) {
+            unlink($uploadDir . $imagePath);
+        }
+        
+        // Générer un nom de fichier unique
+        $ext = pathinfo($_FILES['product_image']['name'], PATHINFO_EXTENSION);
+        $imageName = uniqid('prod_') . '.' . $ext;
         $targetPath = $uploadDir . $imageName;
-
-        // Déplacer le fichier uploadé dans le dossier cible
+        
+        // Déplacer le fichier uploadé
         if (move_uploaded_file($_FILES['product_image']['tmp_name'], $targetPath)) {
-            $imagePath = $imageName; // Enregistrer uniquement le nom de l'image
+            $imagePath = $imageName;
         }
     }
-
+    
     if (isset($data['id']) && $data['id'] > 0) {
         // Mise à jour
         $stmt = $pdo->prepare("
             UPDATE products 
-            SET name = ?, category_id = ?, price = ?, stock = ?, description = ?, status = ?, image = ?
+            SET name = ?, category_id = ?, price = ?, stock = ?, 
+                description = ?, status = ?, image = ?, discount = ?
             WHERE id = ?
         ");
         $stmt->execute([
             $data['name'],
-            $data['category_id'],
+            $data['category_id'] ?: null,
             $data['price'],
             $data['stock'],
             $data['description'] ?? '',
             $data['status'] ?? 1,
-            $imagePath ?? $data['image'], // Conserver l'image existante si aucune nouvelle image n'est uploadée
+            $imagePath,
+            $data['discount'] ?? 0,
             $data['id']
         ]);
         return $data['id'];
     } else {
         // Création
         $stmt = $pdo->prepare("
-            INSERT INTO products (name, category_id, price, stock, description, status, image)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO products 
+            (name, category_id, price, stock, description, status, image, discount) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         ");
         $stmt->execute([
             $data['name'],
-            $data['category_id'],
+            $data['category_id'] ?: null,
             $data['price'],
             $data['stock'],
             $data['description'] ?? '',
             $data['status'] ?? 1,
-            $imagePath
+            $imagePath,
+            $data['discount'] ?? 0
         ]);
         return $pdo->lastInsertId();
     }
@@ -434,6 +457,7 @@ switch ($current_page) {
     <title>Panneau d'Administration - Kiosque</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
+    <sccript src="script_time.js" defer></script>
 </head>
 <body>
     <?php if ($current_page === 'login' || !isLoggedIn()): ?>
@@ -867,68 +891,57 @@ switch ($current_page) {
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if (isset($products) && !empty($products)): ?>
-                                    <?php foreach ($products as $product): ?>
-                                        <?php
-                                        // Logique pour obtenir les informations de catégorie
-                                        $category_name = 'Non catégorisé';
-                                        if (isset($categories)) {
-                                            foreach ($categories as $cat) {
-                                                if ($cat['id'] == $product['category_id']) {
-                                                    $category_name = $cat['name'];
-                                                    break;
-                                                }
+                                <?php 
+                                $products = getAllProducts();
+                                if (!empty($products)): 
+                                    foreach ($products as $product): 
+                                        $imagePath = !empty($product['image']) ? 'images/' . htmlspecialchars($product['image']) : 'images/default-product.jpg';
+                                ?>
+                                    <tr>
+                                        <td>P<?php echo sprintf('%03d', $product['id']); ?></td>
+                                        <td>
+                                            <div class="product-img">
+                                                <img src="<?php echo $imagePath; ?>" alt="<?php echo htmlspecialchars($product['name']); ?>" 
+                                                    style="width: 100%; height: 100%; object-fit: cover; border-radius: 3px;">
+                                            </div>
+                                        </td>
+                                        <td><?php echo htmlspecialchars($product['name']); ?></td>
+                                        <td><?php echo htmlspecialchars($product['category_name'] ?? 'Non catégorisé'); ?></td>
+                                        <td><?php echo number_format($product['price'], 2, ',', ' '); ?> €</td>
+                                        <td>
+                                            <?php 
+                                            if ($product['stock'] === null) {
+                                                echo '∞';
+                                            } else {
+                                                echo (int)$product['stock']; 
                                             }
-                                        }
-                                        
-                                        // Définir l'emoji en fonction de la catégorie
-                                        $emoji = '📦'; // Par défaut
-                                        switch (strtolower($category_name)) {
-                                            case 'produits d\'entretien': $emoji = '🧴'; break;
-                                            case 'lavage auto': $emoji = '🚿'; break;
-                                            case 'carburants': $emoji = '⛽'; break;
-                                            case 'accessoires': $emoji = '🔧'; break;
-                                            case 'huiles et additifs': $emoji = '🛢️'; break;
-                                        }
-                                        ?>
-                                        <tr>
-                                            <td>P<?php echo sprintf('%03d', $product['id']); ?></td>
-                                            <td><div class="product-img"><?php echo $emoji; ?></div></td>
-                                            <td><?php echo htmlspecialchars($product['name']); ?></td>
-                                            <td><?php echo htmlspecialchars($category_name); ?></td>
-                                            <td><?php echo number_format($product['price'], 2, ',', ' '); ?> TND</td>
-                                            <td>
-                                                <?php 
-                                                if ($product['stock'] === null) {
-                                                    echo '∞';
-                                                } else {
-                                                    echo (int)$product['stock']; 
-                                                }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php if ($product['status'] == 1): ?>
-                                                    <?php if ($product['stock'] > 0 || $product['stock'] === null): ?>
-                                                        <span class="status status-active">Actif</span>
-                                                    <?php else: ?>
-                                                        <span class="status status-inactive">Rupture</span>
-                                                    <?php endif; ?>
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <?php if ($product['status'] == 1): ?>
+                                                <?php if ($product['stock'] > 0 || $product['stock'] === null): ?>
+                                                    <span class="status status-active">Actif</span>
                                                 <?php else: ?>
-                                                    <span class="status status-inactive">Inactif</span>
+                                                    <span class="status status-inactive">Rupture</span>
                                                 <?php endif; ?>
-                                            </td>
-                                            <td>
-                                                <a href="?page=products&edit_product=<?php echo $product['id']; ?>">
-                                                    <button class="btn btn-sm btn-warning">Modifier</button>
-                                                </a>
-                                                <a href="?page=products&action=delete_product&id=<?php echo $product['id']; ?>" 
-                                                   onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit?');">
-                                                    <button class="btn btn-sm btn-danger">Supprimer</button>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
+                                            <?php else: ?>
+                                                <span class="status status-inactive">Inactif</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <a href="?page=products&edit_product=<?php echo $product['id']; ?>">
+                                                <button class="btn btn-sm btn-warning">Modifier</button>
+                                            </a>
+                                            <a href="?page=products&action=delete_product&id=<?php echo $product['id']; ?>" 
+                                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit?');">
+                                                <button class="btn btn-sm btn-danger">Supprimer</button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php 
+                                    endforeach; 
+                                else: 
+                                ?>
                                     <tr>
                                         <td colspan="8" style="text-align: center;">Aucun produit trouvé</td>
                                     </tr>

@@ -19,31 +19,39 @@ $top_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>EnergyFuel - Produits Auto</title>
     <link rel="stylesheet" href="style_produit.css">
     <script src="script_produit.js" defer></script>
+    <script src="script_time.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <!-- Header -->
     <header>
         <div class="container header-container">
+            <div class="header-top">
+                <div class="current-time" id="currentTime"></div>
+            </div>
             <div class="logo">
-                <a href="index.html"><span>Energy</span><span>Fuel</span></a>
+                <a href="index_acceuil.php"><span>Energy</span><span>Fuel</span></a>
             </div>
             <nav>
                 <ul>
                     <li><a href="index_acceuil.php">Accueil</a></li>
                     <li><a href="index_service.php">Services</a></li>
                     <li><a href="index_classement.php">Classement</a></li>
-                    <li><a href="index_about_us.php">À propos</a></li>
+                    <li><a href="index_about_us.php">about us</a></li>
                     <li>
-                        <div class="user-dropdown">
-                          <div class="user-icon">
-                            <i class="fas fa-user"></i> 😊😊
-                          </div>
-                          <div class="dropdown-content">
-                            <a href="index_sign_in.php">Connecter</a>
-                            <a href="index_sign_up.php">Inscrivez-vous</a>
-                          </div>
+                    <div class="user-dropdown">
+                        <div class="user-icon <?php echo isset($_SESSION['email']) ? 'connected' : 'disconnected'; ?>">
+                            <i class="fas fa-user"></i>
                         </div>
+                        <div class="dropdown-content">
+                            <?php if (isset($_SESSION['email'])): ?>
+                                <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a>
+                            <?php else: ?>
+                                <a href="index_sign_in.php"><i class="fas fa-sign-in-alt"></i> Connecter</a>
+                                <a href="index_sign_up.php"><i class="fas fa-user-plus"></i> Inscrivez-vous</a>
+                            <?php endif; ?>
+                        </div>
+                    </div>
                     </li>
                     <li>
                         <a href="panier.php" class="cart-icon">
@@ -185,9 +193,9 @@ $top_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="footer-column">
                     <h3>Nos services</h3>
                     <ul class="footer-links">
-                        <li><a href="index_lavage.html">Lavage Auto</a></li>
-                        <li><a href="index_produit.html">Produits</a></li>
-                        <li><a href="index_carburant.html">Carburant</a></li>
+                        <li><a href="index_lavage.php">Lavage Auto</a></li>
+                        <li><a href="index_produit.php">Produits</a></li>
+                        <li><a href="index_carburant.php">Carburant</a></li>
                     </ul>
                 </div>
                 

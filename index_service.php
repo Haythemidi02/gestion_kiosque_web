@@ -7,10 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EnergyFuel - Nos services</title>
     <script src="script_service.js" defer></script>
+    <script src="script_time.js" defer></script>
     <link rel="stylesheet" href="style_service.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header>
+        <div class="header-top">
+            <div class="current-time" id="currentTime"></div>
+        </div>
         <div class="logo">Energy<span>Fuel</span></div>
         <nav>
             <ul>
@@ -19,25 +24,19 @@
                 <li><a href="index_classement.php" id="navLeaderboard">Classement</a></li>
                 <li><a href="index_about_us.php" id="navAccount">about us</a></li>
                 <li>
-                    <div class="user-dropdown">
-                        <div class="user-icon">
-                            <i class="fas fa-user"></i>
-                            <!-- Display username if logged in -->
-                            <?php if (isset($_SESSION['email'])): ?>
-                                <?php echo htmlspecialchars($_SESSION['email']); ?>
-                            <?php else: ?>
-                                😊😊
-                            <?php endif; ?>
-                        </div>
-                        <div class="dropdown-content">
-                            <?php if (isset($_SESSION['email'])): ?>
-                                <a href="logout.php">Se déconnecter</a>
-                            <?php else: ?>
-                                <a href="index_sign_in.php">Connecter</a>
-                                <a href="index_sign_up.php">Inscrivez-vous</a>
-                            <?php endif; ?>
-                        </div>
+                <div class="user-dropdown">
+                    <div class="user-icon <?php echo isset($_SESSION['email']) ? 'connected' : 'disconnected'; ?>">
+                        <i class="fas fa-user"></i>
                     </div>
+                    <div class="dropdown-content">
+                        <?php if (isset($_SESSION['email'])): ?>
+                            <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a>
+                        <?php else: ?>
+                            <a href="index_sign_in.php"><i class="fas fa-sign-in-alt"></i> Connecter</a>
+                            <a href="index_sign_up.php"><i class="fas fa-user-plus"></i> Inscrivez-vous</a>
+                        <?php endif; ?>
+                    </div>
+                </div>
                 </li>
             </ul>
         </nav>
@@ -56,7 +55,7 @@
         
         <!-- Lavage Auto Detail -->
         <div id="lavage-details" class="detail-card">
-            <div class="detail-image" style="background-image: url(Cleaning.jpg)"></div>
+            <div class="detail-image" style="background-image: url(/projet_web_kiosque/images/Cleaning.jpg)"></div>
             <div class="detail-content">
                 <h3>Lavage Auto</h3>
                 <p>Notre service de lavage auto propose plusieurs formules adaptées à vos besoins. Notre équipe professionnelle utilise des produits de haute qualité pour garantir un résultat impeccable.</p>
@@ -68,13 +67,13 @@
                     <li>Désodorisation de l'habitacle</li>
                 </ul>
                 <p class="price-tag">À partir de 25€</p>
-                <a href="index_lavage.html" class="btn">Prendre rendez-vous</a>
+                <a href="index_lavage.php" class="btn">Prendre rendez-vous</a>
             </div>
         </div>
         
         <!-- Produits Detail -->
         <div id="produits-details" class="detail-card">
-            <div class="detail-image" style="background-image: url(magasin.jpg)"></div>
+            <div class="detail-image" style="background-image: url(/projet_web_kiosque/images/magasin.jpg)"></div>
             <div class="detail-content">
                 <h3>Produits</h3>
                 <p>Nous proposons une large gamme de produits de qualité pour l'entretien et l'amélioration des performances de votre véhicule.</p>
@@ -92,7 +91,7 @@
         
         <!-- Carburant Detail -->
         <div id="carburant-details" class="detail-card">
-            <div class="detail-image" style="background-image: url(carbur.jpg)"></div>
+            <div class="detail-image" style="background-image: url(/projet_web_kiosque/images/carbur.jpg)"></div>
             <div class="detail-content">
                 <h3>Carburant</h3>
                 <p>Nos carburants de qualité supérieure sont conçus pour optimiser les performances de votre moteur tout en réduisant la consommation.</p>
@@ -104,7 +103,7 @@
                     <li>Système de fidélité avec points cumulables</li>
                 </ul>
                 <p class="price-tag">Prix du marché</p>
-                <a href="index_carburant.html" class="btn">Remplir le reservoir</a>
+                <a href="index_carburant.php" class="btn">Remplir le reservoir</a>
             </div>
         </div>
     </section>
@@ -154,10 +153,10 @@
                 
                 <div class="footer-column">
                     <h3>Liens rapides</h3>
-                    <a href="#">Accueil</a>
-                    <a href="#">Services</a>
-                    <a href="#">Classement</a>
-                    <a href="#">À propos de nous</a>
+                    <a href="index_acceuil.php">Accueil</a>
+                    <a href="index_service.php">Services</a>
+                    <a href="index_classement.php">Classement</a>
+                    <a href="index_about_us.php">À propos de nous</a>
                     <a href="#">Contact</a>
                 </div>
                 
@@ -166,8 +165,6 @@
                     <a href="#lavage-details">Lavage Auto</a>
                     <a href="#produits-details">Produits</a>
                     <a href="#carburant-details">Carburant</a>
-                    <a href="#">Maintenance</a>
-                    <a href="#">Réparation</a>
                 </div>
                 
                 <div class="footer-column">

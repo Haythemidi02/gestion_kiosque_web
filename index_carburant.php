@@ -1,0 +1,298 @@
+<?php session_start(); ?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnergyFuel - Carburants</title>
+    <link rel="stylesheet" href="style_carburant.css">
+    <script src="script_carburant.js" defer></script>
+    <script src="script_time.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+        <div class="header-top">
+            <div class="current-time" id="currentTime"></div>
+        </div>
+            <div class="logo">
+                <a href="index.html"><span>Energy</span><span>Fuel</span></a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index_acceuil.php">Accueil</a></li>
+                    <li><a href="index_service.php">Services</a></li>
+                    <li><a href="index_classement.php">Classement</a></li>
+                    <li><a href="index_about_us.php">À propos</a></li>
+                    <li>
+                        <div class="user-dropdown">
+                            <div class="user-icon <?php echo isset($_SESSION['email']) ? 'connected' : 'disconnected'; ?>">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="dropdown-content">
+                                <?php if (isset($_SESSION['email'])): ?>
+                                    <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a>
+                                <?php else: ?>
+                                    <a href="index_sign_in.php"><i class="fas fa-sign-in-alt"></i> Connecter</a>
+                                    <a href="index_sign_up.php"><i class="fas fa-user-plus"></i> Inscrivez-vous</a>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="panier.php" class="cart-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-badge" id="cart-badge">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="container">
+                <h1>Carburants de qualité supérieure</h1>
+                <p>Optimisez les performances de votre moteur avec nos carburants haut de gamme et notre système de fidélité avantageux</p>
+                <a href="#localiser" class="btn">Trouver une station</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Types de carburant -->
+    <section class="types-carburant">
+        <div class="container">
+            <div class="section-intro">
+                <h2>Nos carburants</h2>
+                <p>Nous proposons une gamme complète de carburants adaptés à tous les véhicules, avec des additifs spéciaux pour améliorer les performances.</p>
+            </div>
+            
+            <div class="carburant-grid">
+                <!-- Essence 95 -->
+                <div class="carburant-card">
+                    <div class="carburant-icon">
+                        <i class="fas fa-gas-pump"></i>
+                    </div>
+                    <h3>Essence sans plomb 95</h3>
+                    <p>Carburant standard pour tous les véhicules essence, avec additifs nettoyants.</p>
+                    <div class="prix-jour">
+                        <span class="prix">1,589 €/L</span>
+                        <span class="variation up"><i class="fas fa-arrow-up"></i> 0,02 €</span>
+                    </div>
+                    <div class="quantity-section">
+                        <label for="quantite95">Quantité (L):</label>
+                        <input type="number" id="quantite95" min="1" step="1" placeholder="Ex: 20">
+                    </div>
+                    <a class="btn add-to-cart" data-product-id="101" data-product-name="Essence sans plomb 95" data-product-price="1.589">Selectionner</a>
+                </div>
+                
+                <!-- Essence 98 -->
+                <div class="carburant-card">
+                    <div class="carburant-icon">
+                        <i class="fas fa-gas-pump"></i>
+                    </div>
+                    <h3>Essence sans plomb 98</h3>
+                    <p>Haute performance pour moteurs exigeants, réduit la consommation.</p>
+                    <div class="prix-jour">
+                        <span class="prix">1,689 €/L</span>
+                        <span class="variation down"><i class="fas fa-arrow-down"></i> 0,01 €</span>
+                    </div>
+                    <div class="quantity-section">
+                        <label for="quantite98">Quantité (L):</label>
+                        <input type="number" id="quantite98" min="1" step="1" placeholder="Ex: 20">
+                    </div>
+                    <a class="btn add-to-cart" data-product-id="102" data-product-name="Essence sans plomb 98" data-product-price="1.689">Selectionner</a>
+                </div>
+                
+                <!-- Diesel -->
+                <div class="carburant-card">
+                    <div class="carburant-icon">
+                        <i class="fas fa-gas-pump"></i>
+                    </div>
+                    <h3>Diesel haute performance</h3>
+                    <p>Réduit les émissions et améliore le rendement du moteur.</p>
+                    <div class="prix-jour">
+                        <span class="prix">1,489 €/L</span>
+                        <span class="variation stable"><i class="fas fa-equals"></i></span>
+                    </div>
+                    <div class="quantity-section">
+                        <label for="quantiteDiesel">Quantité (L):</label>
+                        <input type="number" id="quantiteDiesel" min="1" step="1" placeholder="Ex: 20">
+                    </div>
+                    <a class="btn add-to-cart" data-product-id="103" data-product-name="Diesel haute performance" data-product-price="1.489">Selectionner</a>
+                </div>
+                
+                <!-- Electrique -->
+                <div class="carburant-card">
+                    <div class="carburant-icon">
+                        <i class="fas fa-charging-station"></i>
+                    </div>
+                    <h3>Recharge électrique</h3>
+                    <p>Bornes rapides pour véhicules électriques, recharge en 30 min.</p>
+                    <div class="prix-jour">
+                        <span class="prix">0,39 €/kWh</span>
+                    </div>
+                    <div class="quantity-section">
+                        <label for="quantiteElectrique">Quantité (kwh):</label>
+                        <input type="number" id="quantiteElectrique" min="1" step="1" placeholder="Ex: 20">
+                    </div>
+                    <a class="btn add-to-cart" data-product-id="104" data-product-name="Recharge électrique" data-product-price="0.39">Selectionner</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Avantages carburants -->
+    <section class="avantages-carburant">
+        <div class="container">
+            <h2>Les avantages EnergyFuel</h2>
+            
+            <div class="avantages-list">
+                <div class="avantage-item">
+                    <div class="avantage-number">1</div>
+                    <div class="avantage-content">
+                        <h3>Additifs haute performance</h3>
+                        <p>Nos carburants contiennent des additifs spéciaux qui nettoient le moteur, réduisent la consommation et améliorent les performances.</p>
+                    </div>
+                </div>
+                
+                <div class="avantage-item">
+                    <div class="avantage-number">2</div>
+                    <div class="avantage-content">
+                        <h3>Programme de fidélité</h3>
+                        <p>Avec notre carte fidélité, cumulez des points à chaque plein et bénéficiez de réductions et avantages exclusifs.</p>
+                    </div>
+                </div>
+                
+                <div class="avantage-item">
+                    <div class="avantage-number">3</div>
+                    <div class="avantage-content">
+                        <h3>Qualité certifiée</h3>
+                        <p>Tous nos carburants répondent aux normes les plus strictes et sont régulièrement contrôlés pour garantir leur qualité.</p>
+                    </div>
+                </div>
+                
+                <div class="avantage-item">
+                    <div class="avantage-number">4</div>
+                    <div class="avantage-content">
+                        <h3>Service rapide</h3>
+                        <p>Nos stations sont conçues pour un service efficace, avec des pistes larges et un personnel disponible pour vous aider.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Carte des stations -->
+    <section class="carte-stations" id="localiser">
+        <div class="container">
+            <div class="section-intro">
+                <h2>Trouvez une station EnergyFuel près de chez vous</h2>
+                <p>Notre réseau compte plus de 200 stations en France, ouvertes 7j/7 avec des horaires étendus.</p>
+            </div>
+            
+            <div class="map-container">
+                <!-- Ici vous intégrerez votre solution de carte (Google Maps, Mapbox, etc.) -->
+                <div class="map-placeholder">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <p>Carte des stations EnergyFuel</p>
+                </div>
+                
+                <div class="search-box">
+                    <input type="text" placeholder="Entrez votre ville ou code postal">
+                    <button class="btn"><i class="fas fa-search"></i> Rechercher</button>
+                </div>
+            </div>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <div class="container">
+            <h2>Questions fréquentes</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">Quelle est la différence entre l'essence 95 et 98 ?</div>
+                <div class="faq-answer">
+                    <p>L'essence 98 a un indice d'octane plus élevé que le 95, ce qui la rend plus résistante à l'auto-allumage. Elle est recommandée pour les moteurs hautes performances ou turbocompressés. Notre essence 98 contient également des additifs nettoyants plus concentrés pour une meilleure protection du moteur.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Puis-je utiliser votre diesel pour mon véhicule ancien ?</div>
+                <div class="faq-answer">
+                    <p>Oui, notre diesel haute performance est compatible avec tous les véhicules diesel, y compris les modèles anciens. Il contient des additifs qui protègent le système d'injection et nettoient les dépôts, ce qui est particulièrement bénéfique pour les moteurs plus âgés.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Comment fonctionne la recharge électrique ?</div>
+                <div class="faq-answer">
+                    <p>Nos bornes de recharge rapide permettent de recharger la plupart des véhicules électriques à 80% en 30 minutes environ. Il vous suffit de brancher votre véhicule, de scanner votre carte EnergyFuel ou de payer par carte bancaire, et la recharge démarre automatiquement.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Comment obtenir la carte fidélité EnergyFuel ?</div>
+                <div class="faq-answer">
+                    <p>Vous pouvez demander votre carte fidélité gratuitement dans n'importe quelle station EnergyFuel en présentant une pièce d'identité. Vous pouvez également vous inscrire en ligne et recevoir votre carte par courrier sous 7 jours ou l'ajouter directement à votre application mobile.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <!-- Column 1 -->
+                <div class="footer-column">
+                    <h3>À propos d'EnergyFuel</h3>
+                    <p>EnergyFuel est votre partenaire de confiance pour tous vos besoins automobiles, offrant des services de qualité supérieure depuis plus de 15 ans.</p>
+                </div>
+                
+                <!-- Column 2 -->
+                <div class="footer-column">
+                    <h3>Nos services</h3>
+                    <ul class="footer-links">
+                        <li><a href="index_lavage.php">Lavage Auto</a></li>
+                        <li><a href="index_produit.php">Produits</a></li>
+                        <li><a href="index_carburant.php">Carburant</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 3 -->
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Avenue des Énergies, 75001 Paris</li>
+                        <li><i class="fas fa-phone"></i> +33 1 23 45 67 89</li>
+                        <li><i class="fas fa-envelope"></i> contact@energyfuel.com</li>
+                        <li><i class="fas fa-clock"></i> Lun-Sam: 8h-20h | Dim: 9h-18h</li>
+                    </ul>
+                </div>
+                
+                <!-- Column 4 -->
+                <div class="footer-column">
+                    <h3>Suivez-nous</h3>
+                    <ul class="social-links">
+                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                    </ul>
+                    <div style="margin-top: 20px;">
+                        <a href="#" class="btn">Contactez-nous</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 EnergyFuel. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

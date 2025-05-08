@@ -4,6 +4,10 @@
     --light: #ecf0f1;
     --dark: #34495e;
     --success: #27ae60;
+    --light-gray: #e2e8f0;
+    --white: #ffffff;
+    --primary-color: #e74c3c;  /* Même couleur que --primary */
+    --dark-blue: #2c3e50;
 }
 
 * {
@@ -26,7 +30,21 @@ header {
     justify-content: space-between;
     align-items: center;
 }
+/*time*/
+.header-top {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 5px 10px;
+    font-size: 14px;
+    color: var(--dark); /* Couleur du texte */
+    background-color: transparent; /* Supprime le fond clair */
+}
 
+.current-time {
+    font-weight: bold;
+    color: var(--white); /* Couleur principale */
+}
 section {
     padding: 50px 20px;
     text-align: center;
@@ -228,4 +246,40 @@ input[type="radio"]:checked + label::before {
 .invalid {
     border-color: #e74c3c !important;
     background-color: #fff6f6;
+}
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper input[type="password"],
+.password-wrapper input[type="text"] {
+    padding-right: 40px;
+    width: 100%;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    color: #666;
+}
+
+.toggle-password:hover {
+    color: #333;
+}
+
+.toggle-checkbox {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-checkbox:checked ~ .fa-eye::before {
+    content: "\f070"; /* œil barré */
+}
+.password-wrapper .toggle-password:hover {
+    color: var(--primary);
 }

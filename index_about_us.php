@@ -1,14 +1,29 @@
-<?php session_start(); ?>
+<?php
+require_once  __DIR__. '/config.php'; // Chemin relatif correct vers votre fichier config
+?>
+<?php
+session_start();
+
+if (!isset($_SESSION['email'])) {
+    header("Location: index_sign_in.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>À Propos de Nous - Station-Service</title>
+    <script src="script_time.js" defer></script>
     <link rel="stylesheet" href="style_about_us.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header>
+        <div class="header-top">
+                <div class="current-time" id="currentTime"></div>
+        </div>
         <div class="logo">Energy<span>Fuel</span></div>
         <nav>
             <ul>
@@ -18,20 +33,15 @@
                 <li><a href="index_about_us.php" id="navAccount">about us</a></li>
                 <li>
                     <div class="user-dropdown">
-                        <div class="user-icon">
+                        <div class="user-icon <?php echo isset($_SESSION['email']) ? 'connected' : 'disconnected'; ?>">
                             <i class="fas fa-user"></i>
-                            <?php if (isset($_SESSION['email'])): ?>
-                                <?php echo htmlspecialchars($_SESSION['email']); ?>
-                            <?php else: ?>
-                                😊😊
-                            <?php endif; ?>
                         </div>
                         <div class="dropdown-content">
                             <?php if (isset($_SESSION['email'])): ?>
-                                <a href="logout.php">Se déconnecter</a>
+                                <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a>
                             <?php else: ?>
-                                <a href="index_sign_in.php">Connecter</a>
-                                <a href="index_sign_up.php">Inscrivez-vous</a>
+                                <a href="index_sign_in.php"><i class="fas fa-sign-in-alt"></i> Connecter</a>
+                                <a href="index_sign_up.php"><i class="fas fa-user-plus"></i> Inscrivez-vous</a>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -48,13 +58,13 @@
             <p>En développant ses activités, EnergyFuel S.A. a fini par occuper la première place parmi les entreprises du secteur, tant par le volume de ses ventes que par l'importance de son chiffre d'affaires et le savoir-faire de ses ressources humaines et s'emploie constamment à consolider cette position en offrant à ses clients la meilleure qualité de produit et de service.</p>
             <p>EnergyFuel S.A. est présente partout à travers ses 216 stations-service réparties sur tout le territoire tunisien, ses 54 stations portuaires et ses 6 dépôts aéroportuaires.</p>
             <h2>Dates Clés</h2>
-            <ul>
+            <ol>
                 <li>1960 : Création de la société internationale AGIP S.A. Tunisie par le groupe italien ENI.</li>
                 <li>1963 : Acquisition de 50 % du capital de la société AGIP S.A. Tunisie par l'État tunisien.</li>
                 <li>1975 : Achat du reste du capital de la société AGIP S.A. par l'État tunisien.</li>
                 <li>1977 : Changement du nom et du statut d'AGIP S.A. pour devenir « la Société Nationale de Distribution des Pétroles ».</li>
                 <li>2000 : La Société Nationale de Distribution des Pétroles devient une société anonyme.</li>
-            </ul>
+            </ol>
             <h2>Chiffres Clés au 31/12/2020</h2>
             <ul>
                 <li>Chiffre d'affaires : 1 845 Millions DT HT</li>
@@ -64,19 +74,59 @@
             </ul>
             <h2>Notre Kiosque</h2>
             <video  controls autoplay loop class="kiosk-video">
-                <source src="3727446-hd_1920_1080_30fps.mp4" type="video/mp4">
+                <source src="images/3727446-hd_1920_1080_30fps.mp4" type="video/mp4">
             </video>
         </div>
     </section>
     <section class="services">
         <div class="container">
             <h2>Nos Services</h2>
-            <ul>
+            <ol>
                 <li>Carburant de haute qualité (Essence, Diesel, Bioéthanol)</li>
                 <li>Recharge pour véhicules électriques</li>
                 <li>Entretien rapide (pression des pneus, huile, etc.)</li>
                 <li>Magasin et restauration rapide</li>
-            </ul>
+            </ol>
+        </div>
+    </section>
+    <section class="about-section">
+        <div class="container">
+            <h2>Nos horaires d'ouverture</h2>
+            
+            <div class="opening-hours">
+                <div class="opening-day">
+                    <span class="day">Lundi</span>
+                    <span class="hours"><?= getSetting('hours_monday', '08:00-18:00') ?></span>
+                </div>
+                <div class="opening-day">
+                    <span class="day">Mardi</span>
+                    <span class="hours"><?= getSetting('hours_tuesday', '08:00-18:00') ?></span>
+                </div>
+                <div class="opening-day">
+                    <span class="day">Mercredi</span>
+                    <span class="hours"><?= getSetting('hours_wednesday', '08:00-18:00') ?></span>
+                </div>
+                <div class="opening-day">
+                    <span class="day">Jeudi</span>
+                    <span class="hours"><?= getSetting('hours_thursday', '08:00-18:00') ?></span>
+                </div>
+                <div class="opening-day">
+                    <span class="day">Vendredi</span>
+                    <span class="hours"><?= getSetting('hours_friday', '08:00-20:00') ?></span>
+                </div>
+                <div class="opening-day">
+                    <span class="day">Samedi</span>
+                    <span class="hours"><?= getSetting('hours_saturday', '09:00-16:00') ?></span>
+                </div>
+                <div class="opening-day closed">
+                    <span class="day">Dimanche</span>
+                    <span class="hours"><?= getSetting('hours_sunday', 'Fermé') ?></span>
+                </div>
+            </div>
+            
+            <div class="opening-notes">
+                <p><?= getSetting('opening_special_notes', 'Service de carburant disponible 24/7') ?></p>
+            </div>
         </div>
     </section>
     <section class="sustainability">

@@ -2,7 +2,7 @@
 // index_sign_up.php
 session_start();
 try {
-    $pdo = new PDO("mysql:host=localhost;dbname=kiosque", "root", "");
+    $pdo = new PDO("mysql:host=localhost;dbname=kiosque_db", "root", "");
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die("Échec de la connexion : " . $e->getMessage());
@@ -49,17 +49,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EnergyFuel - Inscription</title>
     <link rel="stylesheet" href="style_sign.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="script_sign_in.js" defer></script>
+    <script src="script_time.js" defer></script>
 </head>
 <body>
     <header>
+        <div class="header-top">
+            <div class="current-time" id="currentTime"></div>
+        </div>
         <div class="logo">Energy<span>Fuel</span></div>
         <nav>
             <ul>
                 <li><a href="index_acceuil.php">Accueil</a></li>
                 <li><a href="index_service.php">Services</a></li>
                 <li><a href="index_classement.php">Classement</a></li>
-                <li><a href="index_about_us.php">À propos</a></li>
+                <li><a href="index_about_us.php">about us</a></li>
             </ul>
         </nav>
     </header>
@@ -98,16 +103,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="form-group">
                 <label for="registerPassword">Mot de passe <span class="required">*</span></label>
-                <input type="password" id="registerPassword" name="registerPassword" placeholder="Créez un mot de passe" required>
+                <div class="password-wrapper">
+                    <input type="password" id="registerPassword" name="registerPassword" placeholder="Créez un mot de passe" required>
+                    <i class="fas fa-eye toggle-password" data-target="registerPassword"></i>
+                </div>
             </div>
             <div class="form-group">
                 <label for="registerPasswordConfirm">Confirmer le mot de passe <span class="required">*</span></label>
-                <input type="password" id="registerPasswordConfirm" name="registerPasswordConfirm" placeholder="Confirmez votre mot de passe" required>
+                <div class="password-wrapper">
+                    <input type="password" id="registerPasswordConfirm" name="registerPasswordConfirm" placeholder="Confirmez votre mot de passe" required>
+                    <i class="fas fa-eye toggle-password" data-target="registerPasswordConfirm"></i>
+                </div>
             </div>
             <div class="form-group">
                 <label>
-                    <input type="checkbox" name="conditions" required>
-                    J'accepte les conditions générales d'utilisation <span class="required">*</span>
+                    <input type="checkbox" name="conditions" required>J'accepte les conditions générales d'utilisation <span class="required">*</span>
                 </label>
             </div>
             <section>

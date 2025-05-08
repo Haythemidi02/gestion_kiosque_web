@@ -16,4 +16,10 @@ try {
 } catch (\PDOException $e) {
     die('Erreur de connexion : ' . $e->getMessage());
 }
+function getSetting($key, $default = '') {
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = ?");
+    $stmt->execute([$key]);
+    return $stmt->fetchColumn() ?: $default;
+}
 ?>

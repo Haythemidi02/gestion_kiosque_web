@@ -10,7 +10,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 try {
-    $pdo = new PDO("mysql:host=localhost;dbname=kiosque", "root", "");
+    $pdo = new PDO("mysql:host=localhost;dbname=kiosque_db", "root", "");
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die("Échec de la connexion : " . $e->getMessage());
@@ -45,17 +45,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['loginEmail'], $_POST[
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EnergyFuel - Connexion</title>
     <link rel="stylesheet" href="style_sign.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="script_sign_in.js" defer></script>
+    <script src="script_time.js" defer></script>
 </head>
 <body>
     <header>
+        <div class="header-top">
+            <div class="current-time" id="currentTime"></div>
+        </div>
         <div class="logo">Energy<span>Fuel</span></div>
         <nav>
             <ul>
                 <li><a href="index_acceuil.php">Accueil</a></li>
                 <li><a href="index_service.php">Services</a></li>
                 <li><a href="index_classement.php">Classement</a></li>
-                <li><a href="index_about_us.php">À propos</a></li>
+                <li><a href="index_about_us.php">about us</a></li>
             </ul>
         </nav>
     </header>
@@ -70,7 +75,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['loginEmail'], $_POST[
             </div>
             <div class="form-group">
                 <label for="loginPassword">Mot de passe <span class="required">*</span></label>
-                <input type="password" id="loginPassword" name="loginPassword" placeholder="Votre mot de passe" required>
+                <div class="password-wrapper">
+                    <input type="password" id="loginPassword" name="loginPassword" placeholder="Votre mot de passe" required>
+                    <label class="toggle-password">
+                        <input type="checkbox" class="toggle-checkbox">
+                        <i class="fas fa-eye"></i>
+                    </label>
+                </div>
             </div>
             <section>
                 <button type="submit" class="btn btn-block" id="loginButton">Se connecter</button>

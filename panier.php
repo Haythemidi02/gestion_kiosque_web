@@ -18,18 +18,33 @@ if (!isset($_SESSION['email'])) {
     <header>
         <div class="logo">Energy<span>Fuel</span></div>
         <nav>
-            <ul>
-                <li><a href="index_acceuil.php">Accueil</a></li>
-                <li><a href="index_service.php">Services</a></li>
-                <li><a href="index_carburant.php">Carburant</a></li>
-                <li><a href="index_lavage.php">Lavage</a></li>
-                <li><a href="index_produit.php">Produits</a></li>
-                <li><a href="index_classement.php">Classement</a></li>
-                <li><a href="index_about_us.php">À propos</a></li>
-                <li><a href="index_cart.php">Panier</a></li>
-                <li><a href="index_profile.php">Mon Compte (<?php echo htmlspecialchars($_SESSION['email']); ?>)</a></li>
-                <li><a href="index_sign_in.php?logout=1">Déconnexion</a></li>
-            </ul>
+        <ul>
+            <li><a href="index_acceuil.php">Accueil</a></li>
+            <li><a href="index_service.php">Services</a></li>
+            <li><a href="index_classement.php">Classement</a></li>
+            <li><a href="index_about_us.php">À propos</a></li>
+            <li>
+                <div class="user-dropdown">
+                <div class="user-icon <?php echo isset($_SESSION['email']) ? 'connected' : 'disconnected'; ?>">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="dropdown-content">
+                        <?php if (isset($_SESSION['email'])): ?>
+                            <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a>
+                        <?php else: ?>
+                            <a href="index_sign_in.php"><i class="fas fa-sign-in-alt"></i> Connecter</a>
+                            <a href="index_sign_up.php"><i class="fas fa-user-plus"></i> Inscrivez-vous</a>
+                        <?php endif; ?>
+                </div>
+                /div>
+            </li>
+            <li>
+                <a href="panier.php" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge" id="cart-badge">0</span>
+                </a>
+            </li>
+        </ul>
         </nav>
     </header>
     <div id="authSection" class="container">
@@ -41,7 +56,7 @@ if (!isset($_SESSION['email'])) {
             </table>
             <p><strong>Total :</strong> <span id="total">0.00 €</span></p>
             <button id="clearCart">Vider le panier</button>
-            <a href="index_paiement.html" id="payButton" style="display: inline-block; margin-left: 10px; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">Payer</a>
+            <a href="index_paiement.php" id="payButton" style="display: inline-block; margin-left: 10px; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">Payer</a>
         </div>
     </div>
     <footer class="minimised">

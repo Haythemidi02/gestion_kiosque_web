@@ -5,10 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EnergyFuel - Station Service</title>
+    <script src="script_time.js" defer></script>
     <link rel="stylesheet" href="style_classement.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header>
+        <div class="header-top">
+            <div class="current-time" id="currentTime"></div>
+        </div>
         <div class="logo">Energy<span>Fuel</span></div>
         <nav>
             <ul>
@@ -18,21 +23,15 @@
                 <li><a href="index_about_us.php" id="navAccount">about us</a></li>
                 <li>
                     <div class="user-dropdown">
-                        <div class="user-icon">
+                        <div class="user-icon <?php echo isset($_SESSION['email']) ? 'connected' : 'disconnected'; ?>">
                             <i class="fas fa-user"></i>
-                            <!-- Display username if logged in -->
-                            <?php if (isset($_SESSION['email'])): ?>
-                                <?php echo htmlspecialchars($_SESSION['email']); ?>
-                            <?php else: ?>
-                                😊😊
-                            <?php endif; ?>
                         </div>
                         <div class="dropdown-content">
                             <?php if (isset($_SESSION['email'])): ?>
-                                <a href="logout.php">Se déconnecter</a>
+                                <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a>
                             <?php else: ?>
-                                <a href="index_sign_in.php">Connecter</a>
-                                <a href="index_sign_up.php">Inscrivez-vous</a>
+                                <a href="index_sign_in.php"><i class="fas fa-sign-in-alt"></i> Connecter</a>
+                                <a href="index_sign_up.php"><i class="fas fa-user-plus"></i> Inscrivez-vous</a>
                             <?php endif; ?>
                         </div>
                     </div>
