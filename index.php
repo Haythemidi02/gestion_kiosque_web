@@ -530,36 +530,7 @@ switch ($current_page) {
                 <div class="value"><?php echo number_format($today_sales, 2, ',', ' '); ?> €</div>
                 <p>+ 15% vs hier</p>
             </div>
-            <div class="stat-card orders">
-                <h3>Commandes</h3>
-                <?php
-                $order_count = 0;
-                $pending_orders = 0;
-                if (isset($orders)) {
-                    $order_count = count($orders);
-                    foreach ($orders as $order) {
-                        if ($order['status'] === 'pending') $pending_orders++;
-                    }
-                }
-                ?>
-                <div class="value"><?php echo $order_count; ?></div>
-                <p><?php echo $pending_orders; ?> en cours</p>
-            </div>
-            <div class="stat-card products">
-                <h3>Produits</h3>
-                <?php
-                $product_count = 0;
-                $out_of_stock = 0;
-                if (isset($products)) {
-                    $product_count = count($products);
-                    foreach ($products as $product) {
-                        if ($product['stock'] <= 0 && $product['stock'] !== null) $out_of_stock++;
-                    }
-                }
-                ?>
-                <div class="value"><?php echo $product_count; ?></div>
-                <p><?php echo $out_of_stock; ?> en rupture</p>
-            </div>
+
             <div class="stat-card users">
                 <h3>Visiteurs</h3>
                 <?php
@@ -569,7 +540,7 @@ switch ($current_page) {
                 <div class="value"><?php echo $visitors; ?></div>
                 <p>Aujourd'hui</p>
             </div>
-        </div>
+        </div>          
 
         <!-- Navigation par onglets -->
         <div class="admin-tabs">
@@ -728,23 +699,23 @@ switch ($current_page) {
                                     <tr>
                                         <td>Essence sans plomb 95</td>
                                         <td>Carburants</td>
-                                        <td>1,589 €/L</td>
+                                        <td>1,589 TND/L</td>
                                         <td>1,245 L</td>
                                         <td>∞</td>
                                         <td><span class="status status-active">Actif</span></td>
                                     </tr>
                                     <tr>
                                         <td>Formule Premium</td>
-                                        <td>Lavage auto</td>
-                                        <td>34,90 €</td>
+                                        <td>Lavages</td>
+                                        <td>34,90 TND</td>
                                         <td>28</td>
                                         <td>∞</td>
                                         <td><span class="status status-active">Actif</span></td>
                                     </tr>
                                     <tr>
                                         <td>Huile moteur EnergyFuel</td>
-                                        <td>Huiles et additifs</td>
-                                        <td>29,99 €</td>
+                                        <td>produits</td>
+                                        <td>29,99 TND</td>
                                         <td>15</td>
                                         <td>42</td>
                                         <td><span class="status status-active">Actif</span></td>
@@ -831,13 +802,20 @@ switch ($current_page) {
                             </a>
                         </div>
                     
-                        <div class="search-bar">
-                            <form method="get" action="">
-                                <input type="hidden" name="page" value="products">
-                                <input type="text" name="search" placeholder="Rechercher un produit..." 
-                                       value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
-                                <button type="submit">🔍</button>
-                            </form>
+                        <div class="stat-card products">
+                            <h3>Produits</h3>
+                            <?php
+                            $product_count = 0;
+                            $out_of_stock = 0;
+                            if (isset($products)) {
+                                $product_count = count($products);
+                                foreach ($products as $product) {
+                                    if ($product['stock'] <= 0 && $product['stock'] !== null) $out_of_stock++;
+                                }
+                            }
+                            ?>
+                            <div class="value"><?php echo $product_count; ?></div>
+                            <p><?php echo $out_of_stock; ?> en rupture</p>
                         </div>
                     
                         <div class="filters">
@@ -1084,13 +1062,20 @@ switch ($current_page) {
                             <h2>Historique des Commandes</h2>
                         </div>
 
-                        <div class="search-bar">
-                            <form method="get" action="">
-                                <input type="hidden" name="page" value="orders">
-                                <input type="text" name="search" placeholder="Rechercher par ID ou client..." 
-                                       value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
-                                <button type="submit">🔍</button>
-                            </form>
+                        <div class="stat-card orders">
+                            <h3>Commandes</h3>
+                            <?php
+                            $order_count = 0;
+                            $pending_orders = 0;
+                            if (isset($orders)) {
+                                $order_count = count($orders);
+                                foreach ($orders as $order) {
+                                    if ($order['status'] === 'pending') $pending_orders++;
+                                }
+                            }
+                            ?>
+                            <div class="value"><?php echo $order_count; ?></div>
+                            <p><?php echo $pending_orders; ?> en cours</p>
                         </div>
 
                         <div class="filters">
@@ -1372,10 +1357,10 @@ switch ($current_page) {
                                         <div class="pie-legend">
                                             <?php
                                             $categories_data = [
-                                                'Boissons chaudes' => 25,
-                                                'Sandwichs' => 30,
-                                                'Viennoiseries' => 20,
-                                                'Boissons froides' => 25
+                                                'Carburants' => 25,
+                                                'Lavages' => 30,
+                                                'Produits' => 20,
+                                                'Recharges' => 25
                                             ];
                                             
                                             $colors = ['primary', 'success', 'warning', 'info'];
@@ -1472,19 +1457,19 @@ switch ($current_page) {
                                 <?php else: ?>
                                     <!-- Données d'exemple -->
                                     <tr>
-                                        <td>Café Expresso</td>
-                                        <td>Boissons chaudes</td>
-                                        <td>2,50 €</td>
+                                        <td>Essence sans plomb 95</td>
+                                        <td>carburants</td>
+                                        <td>2,50 TND</td>
                                         <td>142</td>
-                                        <td>355,00 €</td>
+                                        <td>355,00 TND</td>
                                         <td>18%</td>
                                     </tr>
                                     <tr>
-                                        <td>Sandwich Jambon-Beurre</td>
-                                        <td>Sandwichs</td>
-                                        <td>3,90 €</td>
+                                        <td>Formule Premium</td>
+                                        <td>Lavahes</td>
+                                        <td>3,90 TND</td>
                                         <td>87</td>
-                                        <td>339,30 €</td>
+                                        <td>339,30 TND</td>
                                         <td>15%</td>
                                     </tr>
                                 <?php endif; ?>

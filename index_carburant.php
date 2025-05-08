@@ -163,28 +163,6 @@ $carburant_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </section>
-
-    <!-- Carte des stations -->
-    <section class="carte-stations" id="localiser">
-        <div class="container">
-            <div class="section-intro">
-                <h2>Trouvez une station EnergyFuel près de chez vous</h2>
-                <p>Notre réseau compte plus de 200 stations en France, ouvertes 7j/7 avec des horaires étendus.</p>
-            </div>
-            
-            <div class="map-container">
-                <!-- Ici vous intégrerez votre solution de carte (Google Maps, Mapbox, etc.) -->
-                <div class="map-placeholder">
-                    <i class="fas fa-map-marked-alt"></i>
-                    <p>Carte des stations EnergyFuel</p>
-                </div>
-                
-                <div class="search-box">
-                    <input type="text" placeholder="Entrez votre ville ou code postal">
-                    <button class="btn"><i class="fas fa-search"></i> Rechercher</button>
-                </div>
-            </div>
-
     <!-- FAQ -->
     <section class="faq">
         <div class="container">

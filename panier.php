@@ -18,37 +18,31 @@ if (!isset($_SESSION['email'])) {
 </head>
 <body>
     <header>
-        <div class="header-top">
+    <div class="header-top">
             <div class="current-time" id="currentTime"></div>
         </div>
         <div class="logo">Energy<span>Fuel</span></div>
         <nav>
-        <ul>
-            <li><a href="index_acceuil.php">Accueil</a></li>
-            <li><a href="index_service.php">Services</a></li>
-            <li><a href="index_about_us.php">about us</a></li>
-            <li>
-                <div class="user-dropdown">
-                <div class="user-icon <?php echo isset($_SESSION['email']) ? 'connected' : 'disconnected'; ?>">
-                    <i class="fas fa-user"></i>
-                </div>
-                <div class="dropdown-content">
-                        <?php if (isset($_SESSION['email'])): ?>
-                            <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a>
-                        <?php else: ?>
-                            <a href="index_sign_in.php"><i class="fas fa-sign-in-alt"></i> Connecter</a>
-                            <a href="index_sign_up.php"><i class="fas fa-user-plus"></i> Inscrivez-vous</a>
-                        <?php endif; ?>
-                </div>
-                </div>
-            </li>
-            <li>
-                <a href="panier.php" class="cart-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-badge" id="cart-badge">0</span>
-                </a>
-            </li>
-        </ul>
+            <ul>
+                <li><a href="index_acceuil.php" id="navHome">Accueil</a></li>
+                <li><a href="index_service.php" id="navServices">Services</a></li>
+                <li><a href="index_about_us.php" id="navAccount">about us</a></li>
+                <li>
+                    <div class="user-dropdown">
+                        <div class="user-icon <?php echo isset($_SESSION['email']) ? 'connected' : 'disconnected'; ?>">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="dropdown-content">
+                            <?php if (isset($_SESSION['email'])): ?>
+                                <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a>
+                            <?php else: ?>
+                                <a href="index_sign_in.php"><i class="fas fa-sign-in-alt"></i> Connecter</a>
+                                <a href="index_sign_up.php"><i class="fas fa-user-plus"></i> Inscrivez-vous</a>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </nav>
     </header>
     <div id="authSection" class="container">
