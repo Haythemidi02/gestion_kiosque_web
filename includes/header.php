@@ -18,6 +18,7 @@ require_once __DIR__ . '/../core/config.php';
     <?php if (isset($extra_css)): foreach ($extra_css as $css): ?>
         <link rel="stylesheet" href="../assets/css/<?php echo $css; ?>">
     <?php endforeach; endif; ?>
+    <link rel="stylesheet" href="../assets/css/chatbot.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
